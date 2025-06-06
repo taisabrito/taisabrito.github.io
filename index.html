@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taisa Maria Brito dos Santos - Geógrafa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Animações */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Header com gradiente geográfico */
+        .header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 25%, #87ceeb 50%, #98d8e8 75%, #b6e5d8 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            z-index: 2;
+            position: relative;
+            width: 100%;
+        }
+
+        .hero-text {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-text .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #2c5aa0;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .globe-container {
+            width: 400px;
+            height: 400px;
+            position: relative;
+            background: linear-gradient(145deg, #4a90e2, #87ceeb);
+            border-radius: 50%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .globe-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><g fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><circle cx="200" cy="200" r="180"/><ellipse cx="200" cy="200" rx="180" ry="90"/><ellipse cx="200" cy="200" rx="180" ry="45"/><line x1="20" y1="200" x2="380" y2="200"/><path d="M 200 20 Q 300 200 200 380 Q 100 200 200 20"/><path d="M 200 20 Q 100 200 200 380 Q 300 200 200 20"/></g></svg>');
+            border-radius: 50%;
+        }
+
+        .globe-text {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Seções */
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #4a90e2, #87ceeb);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Sobre */
+        .about {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3f2fd 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(145deg, #4a90e2, #87ceeb);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover {
+            transform: translateY(-10px);
+        }
+
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: #2c5aa0;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #555;
+            text-align: justify;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(74, 144, 226, 0.1), rgba(135, 206, 235, 0.1));
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #4a90e2;
+            margin: 2rem 0;
+        }
+
+        /* Formação */
+        .education {
+            background: white;
+        }
+
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .education-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 144, 226, 0.1);
+        }
+
+        .education-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .education-card h3 {
+            color: #2c5aa0;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .education-card .institution {
+            color: #4a90e2;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-card .period {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .education-card .description {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* Interesses de Pesquisa */
+        .research {
+            background: linear-gradient(135deg, #e8f4fd 0%, #f1f8ff 100%);
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .research-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #4a90e2;
+        }
+
+        .research-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .research-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(145deg, #4a90e2, #87ceeb);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        .research-item h3 {
+            color: #2c5aa0;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Experiência */
+        .experience {
+            background: white;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #4a90e2, #87ceeb);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-left: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2rem;
+            width: 16px;
+            height: 16px;
+            background: #4a90e2;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px rgba(74, 144, 226, 0.2);
+        }
+
+        .timeline-item h3 {
+            color: #2c5aa0;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item .period {
+            color: #4a90e2;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Contato */
+        .contact {
+            background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 50%, #87ceeb 100%);
+            color: white;
+        }
+
+        .contact-content {
+            text-align: center;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-5px);
+        }
+
+        .contact-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .globe-container {
+                width: 300px;
+                height: 300px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .timeline {
+                padding-left: 1rem;
+            }
+
+            .timeline-item {
+                margin-left: 1rem;
+            }
+
+            .timeline-item::before {
+                left: -2rem;
+            }
+        }
+
+        /* Navegação suave */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .nav a {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 2px;
+            color: #2c5aa0;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .nav a:hover {
+            background: #4a90e2;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegação -->
+    <nav class="nav">
+        <a href="#home">Início</a>
+        <a href="#about">Sobre</a>
+        <a href="#education">Formação</a>
+        <a href="#research">Pesquisa</a>
+        <a href="#experience">Experiência</a>
+        <a href="#contact">Contato</a>
+    </nav>
+
+    <!-- Header -->
+    <section id="home" class="header">
+        <div class="header-content">
+            <div class="hero-text">
+                <h1>Taisa Maria<br>Brito dos Santos</h1>
+                <div class="subtitle">Bacharelado em Geografia • UFRN</div>
+                <p>Explorando as complexas relações entre homem e natureza através de uma perspectiva interdisciplinar que une Geografia e Filosofia. Especialista em questões territoriais, oceanografia e dinâmica espacial.</p>
+                <div class="cta-buttons">
+                    <a href="#about" class="btn btn-primary">Conheça meu trabalho</a>
+                    <a href="http://lattes.cnpq.br/6216572061896584" target="_blank" class="btn btn-secondary">Currículo Lattes</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="globe-container">
+                    <div class="globe-text">
+                        GEOGRAFIA<br>
+                        <small style="font-size: 0.8em;">& FILOSOFIA</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="section-title">
+                <h2>Sobre Mim</h2>
+                <p>Uma jornada acadêmica interdisciplinar</p>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    Filosofia<br>+<br>Geografia
+                </div>
+                <div class="about-text">
+                    <h3>Formação Interdisciplinar</h3>
+                    <p>Minha trajetória acadêmica representa uma ponte única entre duas áreas fundamentais do conhecimento. Com formação consolidada em <strong>Filosofia pela UERN</strong> (2019-2024) e atualmente cursando <strong>Bacharelado em Geografia na UFRN</strong>, desenvolvo uma visão holística e crítica dos fenômenos geográficos.</p>
+                    
+                    <p>Durante minha graduação em Filosofia, dediquei-me especialmente ao estudo da <strong>filosofia agostiniana</strong>, explorando questões fundamentais sobre a origem do mal, o que me proporcionou uma base sólida para reflexões éticas e antropológicas que hoje aplico às questões ambientais e territoriais.</p>
+                    
+                    <div class="highlight">
+                        <strong>Foco Atual:</strong> Aplicação dos conhecimentos filosóficos para explorar questões territoriais e as interações entre homem e natureza, com interesse particular em oceanografia e dinâmica espacial.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formação -->
+    <section id="education" class="section education">
+        <div class="container">
+            <div class="section-title">
+                <h2>Formação Acadêmica</h2>
+                <p>Construindo conhecimento através da interdisciplinaridade</p>
+            </div>
+            <div class="education-grid">
+                <div class="education-card">
+                    <h3>Bacharelado em Geografia</h3>
+                    <div class="institution">Universidade Federal do Rio Grande do Norte (UFRN)</div>
+                    <div class="period">2024 - Em andamento</div>
+                    <div class="description">
+                        Focando em questões territoriais, oceanografia e dinâmica espacial. Aplicando conhecimentos filosóficos para aprofundar a análise dos desafios ambientais e sociais contemporâneos.
+                    </div>
+                </div>
+                <div class="education-card">
+                    <h3>Licenciatura em Filosofia</h3>
+                    <div class="institution">Universidade do Estado do Rio Grande do Norte (UERN)</div>
+                    <div class="period">2019 - 2024</div>
+                    <div class="description">
+                        <strong>TCC:</strong> "A Origem do mal em Santo Agostinho"<br>
+                        <strong>Orientador:</strong> Prof. Francisco de Assis Costa da Silva<br>
+                        Especialização em filosofia agostiniana, mística medieval e antropologia.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interesses de Pesquisa -->
+    <section id="research" class="section research">
+        <div class="container">
+            <div class="section-title">
+                <h2>Interesses de Pesquisa</h2>
+                <p>Explorando as conexões entre sociedade, natureza e território</p>
+            </div>
+            <div class="research-grid">
+                <div class="research-item">
+                    <div class="research-icon">🌊</div>
+                    <h3>Oceanografia</h3>
+                    <p>Estudo dos oceanos e suas interações com o ambiente terrestre, processos costeiros e dinâmicas marinhas.</p>
+                </div>
+                <div class="research-item">
+                    <div class="research-icon">🗺️</div>
+                    <h3>Dinâmica Espacial</h3>
+                    <p>Análise dos processos de organização territorial e as transformações espaciais ao longo do tempo.</p>
+                </div>
+                <div class="research-item">
+                    <div class="research-icon">🌍</div>
+                    <h3>Questões Territoriais</h3>
+                    <p>Investigação das relações de poder, apropriação do espaço e conflitos territoriais.</p>
+                </div>
+                <div class="research-item">
+                    <div class="research-icon">🤝</div>
+                    <h3>Homem-Natureza</h3>
+                    <p>Estudo das complexas interações entre sociedade humana e meio ambiente natural.</p>
+                </div>
+                <div class="research-item">
+                    <div class="research-icon">💭</div>
+                    <h3>Geografia & Filosofia</h3>
+                    <p>Aplicação de conceitos filosóficos na análise geográfica, especialmente questões éticas ambientais.</p>
+                </div>
+                <div class="research-item">
+                    <div class="research-icon">🏫</div>
+                    <h3>Educação Geográfica</h3>
+                    <p>Desenvolvimento de metodologias pedagógicas inovadoras para o ensino de Geografia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiência -->
+    <section id="experience" class="section experience">
+        <div class="container">
+            <div class="section-title">
+                <h2>Experiência Acadêmica</h2>
+                <p>Construindo pontes entre teoria e prática</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>PIBID - Programa Institucional de Bolsa de Iniciação à Docência</h3>
+                    <div class="period">2020 - 2022 | UERN</div>
+                    <p>Participação como bolsista voluntária no PIBID de Filosofia, desenvolvendo atividades de iniciação à docência em escolas públicas de educação básica. Experiência fundamental para compreender a prática pedagógica e o contexto educacional brasileiro.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Assistente de Professora</h3>
+                    <div class="period">2020 - 2021 | Instituto Euvaldo Lodi (IEL)</div>
+                    <p>Atuação como assistente de professora, ampliando a visão sobre metodologias de ensino e práticas educacionais inovadoras.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Pesquisa em Filosofia Agostiniana</h3>
+                    <div class="period">2019 - 2024</div>
+                    <p>Desenvolvimento de pesquisa aprofundada sobre a filosofia de Santo Agostinho, com foco no problema da origem do mal, abrangendo áreas como Mística Medieval, Cristianismo e Antropologia.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contato -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="section-title">
+                    <h2 style="color: white;">Entre em Contato</h2>
+                    <p style="color: rgba(255,255,255,0.9);">Vamos conversar sobre Geografia, Filosofia e pesquisa</p>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>📧 Email</h3>
+                        <p>Entre em contato para discussões acadêmicas e colaborações de pesquisa</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📚 Currículo Lattes</h3>
+                        <a href="http://lattes.cnpq.br/6216572061896584" target="_blank">
+                            Ver perfil completo
+                        </a>
+                    </div>
+                    <div class="contact-item">
+                        <h3>🏛️ Instituição</h3>
+                        <p>Universidade Federal do Rio Grande do Norte<br>Bacharelado em Geografia</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>📍 Localização</h3>
+                        <p>Caicó, Rio Grande do Norte<br>Brasil</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Taisa Maria Brito dos Santos. Desenvolvido com paixão pela Geografia e Filosofia.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Efeito de paralaxe suave no header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.header');
+            const speed = scrolled * 0.5;
+            if (parallax) {
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Animação de entrada dos elementos
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observar elementos para animação
+        document.querySelectorAll('.education-card, .research-item, .timeline-item').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+
+        // Navegação suave personalizada
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efeito hover nos cartões
+        document.querySelectorAll('.education-card, .research-item').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
