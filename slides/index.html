@@ -467,14 +467,51 @@
 
         // Event listeners para teclado
         document.addEventListener('keydown', (e) => {
+            
+            const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+            
             switch(e.key) {
                 case 'ArrowLeft':
                     e.preventDefault();
-                    changeSlide(-1);
+                
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                        }
+                    }
+                    else
+                    {
+                        changeSlide(-1);
+                    }
+                    
                     break;
                 case 'ArrowRight':
                     e.preventDefault();
-                    changeSlide(1);
+
+                    
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                    }
+                    else
+                    {
+                        changeSlide(1);
+                    }
+
+                    
                     break;
                 case ' ':
                     e.preventDefault();
@@ -492,6 +529,54 @@
 
         // Função principal para inicializar
         async function initSlideshow() {
+            
+            
+            await pb.realtime.subscribe('slide', (e) => {
+                if(e['avancar'])
+                {
+                    //Se for o slide de vídeo, dá play nele.
+
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(1);
+                    
+                }
+                else
+                {
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                            //changeSlide(-1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(-1);
+                    
+                    
+                }
+            })
+            
             const loadingDiv = document.getElementById('loading');
             const container = document.querySelector('.slideshow-container');
             
