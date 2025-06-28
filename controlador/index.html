@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Diretrizes Urbanísticas e Construtivas para Cidades de clima Semi-árido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            line-height: 1.3;
+            font-weight: 300;
+        }
+
+        .highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 30px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status.success {
+            background: rgba(46, 204, 113, 0.1);
+            color: #27ae60;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .status.error {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+
+        .status.loading {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+
+        .status.hidden {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(52, 152, 219, 0.3);
+            border-radius: 50%;
+            border-top-color: #3498db;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Slide <span class="highlight">'Diretrizes Urbanísticas e Construtivas para Cidades de clima Semi-árido'</span></h1>
+        <p class="subtitle">Controlador de Apresentação</p>
+        
+        <div class="controls">
+            <button class="btn" id="anteriorBtn">
+                ← Anterior
+            </button>
+            <button class="btn" id="proximoBtn">
+                Próximo →
+            </button>
+        </div>
+        
+        <div class="status hidden" id="status"></div>
+    </div>
+
+    <script>
+        const anteriorBtn = document.getElementById('anteriorBtn');
+        const proximoBtn = document.getElementById('proximoBtn');
+        const status = document.getElementById('status');
+
+        function showStatus(message, type) {
+            status.className = `status ${type}`;
+            status.innerHTML = message;
+            
+            setTimeout(() => {
+                status.classList.add('hidden');
+            }, 3000);
+        }
+
+        function makeRequest(url, direction) {
+            // Desabilita os botões durante a requisição
+            anteriorBtn.disabled = true;
+            proximoBtn.disabled = true;
+            
+            // Mostra status de carregamento
+            showStatus('<div class="loading-spinner"></div>Carregando slide...', 'loading');
+            
+            fetch(url)
+                .then(response => {
+                    if (response.ok) {
+                        showStatus(`✓ Slide ${direction} carregado com sucesso!`, 'success');
+                    } else {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    showStatus(`✗ Erro ao carregar slide ${direction}`, 'error');
+                })
+                .finally(() => {
+                    // Reabilita os botões
+                    anteriorBtn.disabled = false;
+                    proximoBtn.disabled = false;
+                });
+        }
+
+        anteriorBtn.addEventListener('click', () => {
+            makeRequest('https://geografia.tech/api/slide/anterior', 'anterior');
+        });
+
+        proximoBtn.addEventListener('click', () => {
+            makeRequest('https://geografia.tech/api/slide/proximo', 'próximo');
+        });
+
+        // Adiciona suporte a teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && !anteriorBtn.disabled) {
+                anteriorBtn.click();
+            } else if (e.key === 'ArrowRight' && !proximoBtn.disabled) {
+                proximoBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
