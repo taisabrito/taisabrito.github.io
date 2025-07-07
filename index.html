@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gerenciamento de Chaves - Diagramas de Sequência</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Apresentação de Slides</title>
     <style>
         * {
             margin: 0;
@@ -15,1513 +13,378 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
+            background: #000;
             color: white;
-            margin-bottom: 40px;
-            padding: 40px 0;
+            overflow: hidden;
+            height: 100vh;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .search-container {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .search-box {
-            padding: 15px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 50px;
+        .slideshow-container {
+            position: relative;
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            outline: none;
-            background: rgba(255,255,255,0.9);
-        }
-
-        .search-box:focus {
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-            background: white;
-        }
-
-        .categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .category-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .category-title {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: #5a67d8;
-            margin-bottom: 15px;
+            height: 100vh;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
         }
 
-        .diagram-item {
-            background: white;
-            border-radius: 10px;
-            margin: 10px 0;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .diagram-item:hover {
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-
-        .diagram-header {
-            padding: 20px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .diagram-header:hover {
-            background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
-        }
-
-        .diagram-title {
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .toggle-icon {
-            transition: transform 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .diagram-content {
+        .slide {
             display: none;
-            padding: 0;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        .diagram-content.active {
-            display: block;
-            animation: slideDown 0.3s ease;
+        .slide.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .diagram-image {
+        .slide img {
             max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-height: 100vh;
+            object-fit: contain;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                max-height: 0;
-            }
-            to {
-                opacity: 1;
-                max-height: 1000px;
-            }
+        .slide video {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
         }
 
-        .tab-container {
-            display: flex;
-            border-bottom: 2px solid #e2e8f0;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .tab {
-            flex: 1;
-            padding: 15px;
+
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
         }
 
-        .tab:hover {
-            background: #e2e8f0;
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
-        .tab.active {
-            background: #5a67d8;
-            color: white;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .tab-content {
-            display: none;
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
             padding: 20px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .code-container {
-            background: #2d3748;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .code-header {
-            background: #4a5568;
-            padding: 10px 15px;
-            color: white;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .copy-btn {
-            background: #68d391;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: background 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #48bb78;
-        }
-
-        .copy-btn.copied {
-            background: #38b2ac;
-        }
-
-        pre {
-            margin: 0;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .image-placeholder {
-            background: linear-gradient(45deg, #f0f2f5, #e2e8f0);
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            padding: 40px;
-            text-align: center;
-            color: #4a5568;
-            margin: 20px 0;
-        }
-
-        .image-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            opacity: 0.5;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.9);
             border-radius: 10px;
-            padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin: 20px;
         }
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #5a67d8;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-
-        .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.8);
-            margin-top: 40px;
-            padding: 20px;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #4a5568;
-            font-style: italic;
-        }
-
+        /* Responsividade */
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .categories {
-                grid-template-columns: 1fr;
-            }
-
-            .tab {
-                font-size: 0.9rem;
+            .slide {
+                width: 100%;
+                height: 100vh;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-key"></i> Sistema de Gerenciamento de Chaves</h1>
-            <p>Diagramas de Sequência - Documentação Técnica</p>
+    <div class="slideshow-container">
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando slides...</p>
         </div>
 
-        <!-- Statistics -->
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number">23</div>
-                <div class="stat-label">Casos de Uso</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">7</div>
-                <div class="stat-label">Módulos</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Cobertura</div>
-            </div>
-        </div>
 
-        <!-- Search -->
-        <div class="search-container">
-            <input type="text" class="search-box" placeholder="🔍 Buscar diagramas por nome ou funcionalidade..." id="searchInput">
-        </div>
 
-        <!-- Categories -->
-        <div class="categories" id="categoriesContainer">
+        <!-- Os slides serão inseridos aqui dinamicamente -->
+        
 
-            <!-- Autenticação -->
-            <div class="category-card" data-category="autenticacao">
-                <div class="category-title">
-                    <i class="fas fa-shield-alt"></i>
-                    Autenticação
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU01 - Autenticar Usuário</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Login.jpg"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU01</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Usuario
-participant &quot;Interface&quot; as UI
-participant &quot;:Usuario&quot; as USR
-
-Usuario -&gt; UI: Inserir login e senha
-UI -&gt; USR: validarCredenciais(login, senha)
-USR -&gt; USR: verificarSenha(senha)
-alt Credenciais válidas
-    USR --&gt; UI: autenticacaoSucesso()
-    UI --&gt; Usuario: Acesso liberado
-else Credenciais inválidas
-    USR --&gt; UI: autenticacaoFalhou()
-    UI --&gt; Usuario: Mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Gerenciamento de Usuários -->
-            <div class="category-card" data-category="gerenciamento-de-usuários">
-                <div class="category-title">
-                    <i class="fas fa-users"></i>
-                    Gerenciamento de Usuários
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU02.1 - Criar Usuário</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Cadastrar Usuario.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU02.1</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Usuario&quot; as USR
-
-Administrador -&gt; UI: Inserir dados do usuário
-UI -&gt; USR: criar(nome, login, senha, nivelAcesso)
-USR -&gt; USR: validarDados()
-alt Dados válidos
-    USR -&gt; USR: salvar()
-    USR --&gt; UI: usuarioCriado(sucesso)
-    UI --&gt; Administrador: Usuário criado com sucesso
-else Dados inválidos
-    USR --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU02.2 - Consultar Usuário</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Buscar usuário.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU02.2</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Usuario&quot; as USR
-
-Administrador -&gt; UI: Buscar usuário
-UI -&gt; USR: buscar(filtros)
-USR -&gt; USR: obterLista(filtros)
-USR --&gt; UI: listaUsuarios
-UI --&gt; Administrador: Exibir lista de usuários
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU02.3 - Alterar Usuário</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Alterar Usuário.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU02.3</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Usuario&quot; as USR
-
-Administrador -&gt; UI: Selecionar usuário para editar
-UI -&gt; USR: obter(idUsuario)
-USR --&gt; UI: dadosUsuario
-UI --&gt; Administrador: Exibir dados para edição
-Administrador -&gt; UI: Alterar dados e confirmar
-UI -&gt; USR: atualizar(novosDados)
-USR -&gt; USR: validarDados()
-alt Dados válidos
-    USR -&gt; USR: salvar()
-    USR --&gt; UI: usuarioAtualizado(sucesso)
-    UI --&gt; Administrador: Usuário atualizado com sucesso
-else Dados inválidos
-    USR --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU02.4 - Inativar Usuário</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Inativar Usuário.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU02.4</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Usuario&quot; as USR
-
-Administrador -&gt; UI: Selecionar usuário para inativar
-UI -&gt; USR: inativar(idUsuario)
-USR -&gt; USR: verificarDependencias()
-alt Sem dependências
-    USR -&gt; USR: setStatus(inativo)
-    USR -&gt; USR: salvar()
-    USR --&gt; UI: usuarioInativado(sucesso)
-    UI --&gt; Administrador: Usuário inativado com sucesso
-else Com dependências
-    USR --&gt; UI: erroInativacao(mensagem)
-    UI --&gt; Administrador: Não é possível inativar - usuário possui registros
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Gerenciamento de Locais -->
-            <div class="category-card" data-category="gerenciamento-de-locais">
-                <div class="category-title">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Gerenciamento de Locais
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU03.1 - Criar Local</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Cadastrar Local.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU03.1</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Local&quot; as LOC
-
-Administrador -&gt; UI: Inserir dados do local
-UI -&gt; LOC: criar(nome, descricao)
-LOC -&gt; LOC: validarDados()
-alt Dados válidos
-    LOC -&gt; LOC: salvar()
-    LOC --&gt; UI: localCriado(sucesso)
-    UI --&gt; Administrador: Local criado com sucesso
-else Dados inválidos
-    LOC --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU03.2 - Consultar Local</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Consultar Local.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU03.2</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador  
-participant &quot;Interface&quot; as UI
-participant &quot;:Local&quot; as LOC
-
-Administrador -&gt; UI: Buscar locais
-UI -&gt; LOC: buscar(filtros)
-LOC -&gt; LOC: obterLista(filtros)
-LOC --&gt; UI: listaLocais
-UI --&gt; Administrador: Exibir lista de locais
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU03.3 - Alterar Local</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Alterar Local.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU03.3</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Local&quot; as LOC
-
-Administrador -&gt; UI: Selecionar local para editar
-UI -&gt; LOC: obter(idLocal)
-LOC --&gt; UI: dadosLocal
-UI --&gt; Administrador: Exibir dados para edição
-Administrador -&gt; UI: Alterar dados e confirmar
-UI -&gt; LOC: atualizar(novosDados)
-LOC -&gt; LOC: validarDados()
-alt Dados válidos
-    LOC -&gt; LOC: salvar()
-    LOC --&gt; UI: localAtualizado(sucesso)
-    UI --&gt; Administrador: Local atualizado com sucesso
-else Dados inválidos
-    LOC --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU03.4 - Excluir Local</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Excluir local.png"  class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU03.4</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Local&quot; as LOC
-
-Administrador -&gt; UI: Selecionar local para excluir
-UI -&gt; LOC: excluir(idLocal)
-LOC -&gt; LOC: verificarSetores()
-alt Sem setores associados
-    LOC -&gt; LOC: remover()
-    LOC --&gt; UI: localExcluido(sucesso)
-    UI --&gt; Administrador: Local excluído com sucesso
-else Com setores associados
-    LOC --&gt; UI: erroExclusao(mensagem)
-    UI --&gt; Administrador: Não é possível excluir - local possui setores
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Gerenciamento de Setores -->
-            <div class="category-card" data-category="gerenciamento-de-setores">
-                <div class="category-title">
-                    <i class="fas fa-building"></i>
-                    Gerenciamento de Setores
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU04.1 - Criar Setor</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Cadastrar Setor.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU04.1</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Setor&quot; as SET
-participant &quot;:Local&quot; as LOC
-
-Administrador -&gt; UI: Inserir dados do setor
-UI -&gt; SET: criar(nome, descricao, idLocal)
-SET -&gt; LOC: verificarExistencia(idLocal)
-LOC --&gt; SET: localExiste
-alt Local existe
-    SET -&gt; SET: validarDados()
-    SET -&gt; SET: salvar()
-    SET --&gt; UI: setorCriado(sucesso)
-    UI --&gt; Administrador: Setor criado com sucesso
-else Local não existe
-    SET --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU04.2 - Consultar Setor</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                           <img src="Consultar Setor.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU04.2</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Setor&quot; as SET
-
-Administrador -&gt; UI: Buscar setores
-UI -&gt; SET: buscar(filtros)
-SET -&gt; SET: obterLista(filtros)
-SET --&gt; UI: listaSetores
-UI --&gt; Administrador: Exibir lista de setores
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU04.3 - Alterar Setor</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Alterar Setor.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU04.3</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Setor&quot; as SET
-
-Administrador -&gt; UI: Selecionar setor para editar
-UI -&gt; SET: obter(idSetor)
-SET --&gt; UI: dadosSetor
-UI --&gt; Administrador: Exibir dados para edição
-Administrador -&gt; UI: Alterar dados e confirmar
-UI -&gt; SET: atualizar(novosDados)
-SET -&gt; SET: validarDados()
-alt Dados válidos
-    SET -&gt; SET: salvar()
-    SET --&gt; UI: setorAtualizado(sucesso)
-    UI --&gt; Administrador: Setor atualizado com sucesso
-else Dados inválidos
-    SET --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU04.4 - Excluir Setor</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Excluir Setor.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU04.4</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Setor&quot; as SET
-
-Administrador -&gt; UI: Selecionar setor para excluir
-UI -&gt; SET: excluir(idSetor)
-SET -&gt; SET: verificarChaves()
-alt Sem chaves associadas
-    SET -&gt; SET: remover()
-    SET --&gt; UI: setorExcluido(sucesso)
-    UI --&gt; Administrador: Setor excluído com sucesso
-else Com chaves associadas
-    SET --&gt; UI: erroExclusao(mensagem)
-    UI --&gt; Administrador: Não é possível excluir - setor possui chaves
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Gerenciamento de Chaves -->
-            <div class="category-card" data-category="gerenciamento-de-chaves">
-                <div class="category-title">
-                    <i class="fas fa-key"></i>
-                    Gerenciamento de Chaves
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU05.1 - Criar Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Cadastrar Chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU05.1</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Chave&quot; as CHV
-participant &quot;:Setor&quot; as SET
-
-Administrador -&gt; UI: Inserir dados da chave
-UI -&gt; CHV: criar(nome, descricao, idSetor)
-CHV -&gt; SET: verificarExistencia(idSetor)
-SET --&gt; CHV: setorExiste
-alt Setor existe
-    CHV -&gt; CHV: validarDados()
-    CHV -&gt; CHV: salvar()
-    CHV --&gt; UI: chaveCriada(sucesso)
-    UI --&gt; Administrador: Chave criada com sucesso
-else Setor não existe
-    CHV --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU05.2 - Consultar Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Consultar Chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU05.2</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Chave&quot; as CHV
-
-Administrador -&gt; UI: Buscar chaves
-UI -&gt; CHV: buscar(filtros)
-CHV -&gt; CHV: obterLista(filtros)  
-CHV -&gt; CHV: obterStatus()
-CHV --&gt; UI: listaChaves
-UI --&gt; Administrador: Exibir lista de chaves com status
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU05.3 - Alterar Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Alterar Chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU05.3</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Chave&quot; as CHV
-
-Administrador -&gt; UI: Selecionar chave para editar
-UI -&gt; CHV: obter(idChave)
-CHV --&gt; UI: dadosChave
-UI --&gt; Administrador: Exibir dados para edição
-Administrador -&gt; UI: Alterar dados e confirmar
-UI -&gt; CHV: atualizar(novosDados)
-CHV -&gt; CHV: validarDados()
-alt Dados válidos
-    CHV -&gt; CHV: salvar()
-    CHV --&gt; UI: chaveAtualizada(sucesso)
-    UI --&gt; Administrador: Chave atualizada com sucesso
-else Dados inválidos
-    CHV --&gt; UI: erroValidacao(mensagem)
-    UI --&gt; Administrador: Exibir mensagem de erro
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU05.4 - Excluir Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Excluir Chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU05.4</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Administrador
-participant &quot;Interface&quot; as UI
-participant &quot;:Chave&quot; as CHV
-
-Administrador -&gt; UI: Selecionar chave para excluir
-UI -&gt; CHV: excluir(idChave)
-CHV -&gt; CHV: verificarStatus()
-alt Chave disponível
-    CHV -&gt; CHV: remover()
-    CHV --&gt; UI: chaveExcluida(sucesso)
-    UI --&gt; Administrador: Chave excluída com sucesso
-else Chave emprestada
-    CHV --&gt; UI: erroExclusao(mensagem)
-    UI --&gt; Administrador: Não é possível excluir - chave está emprestada
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Empréstimos e Devoluções -->
-            <div class="category-card" data-category="emprestimos-e-devolucões">
-                <div class="category-title">
-                    <i class="fas fa-exchange-alt"></i>
-                    Empréstimos e Devoluções
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU06 - Registrar Empréstimo de Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Registrar empréstimo de chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU06</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Funcionario
-participant &quot;Interface&quot; as UI
-participant &quot;:RegistroLocacao&quot; as REG
-participant &quot;:Chave&quot; as CHV
-
-Funcionario -&gt; UI: Selecionar chave para empréstimo
-UI -&gt; CHV: verificarDisponibilidade(idChave)
-CHV --&gt; UI: statusDisponibilidade
-alt Chave disponível
-    UI -&gt; Funcionario: Solicitar dados do locador
-    Funcionario -&gt; UI: Inserir dados do locador
-    UI -&gt; REG: registrarEmprestimo(idChave, locador, usuarioOperacao)
-    REG -&gt; REG: criarRegistro()
-    REG -&gt; CHV: atualizarStatus(emprestada)
-    REG -&gt; REG: salvar()
-    REG --&gt; UI: emprestimoRegistrado(sucesso)
-    UI --&gt; Funcionario: Empréstimo registrado com sucesso
-else Chave indisponível
-    CHV --&gt; UI: chaveIndisponivel(mensagem)
-    UI --&gt; Funcionario: Chave não está disponível
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU07 - Registrar Devolução de Chave</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Regisrar Devolucao de Chave.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU07</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Funcionario
-participant &quot;Interface&quot; as UI
-participant &quot;:RegistroLocacao&quot; as REG
-participant &quot;:Chave&quot; as CHV
-
-Funcionario -&gt; UI: Selecionar chave para devolução
-UI -&gt; CHV: verificarStatus(idChave)
-CHV --&gt; UI: statusChave
-alt Chave emprestada
-    UI -&gt; REG: buscarEmprestimoAtivo(idChave)
-    REG --&gt; UI: dadosEmprestimo
-    UI -&gt; Funcionario: Confirmar dados do locador
-    Funcionario -&gt; UI: Confirmar devolução
-    UI -&gt; REG: registrarDevolucao(idEmprestimo, usuarioOperacao)
-    REG -&gt; REG: atualizarRegistro()
-    REG -&gt; CHV: atualizarStatus(disponivel)
-    REG -&gt; REG: salvar()
-    REG --&gt; UI: devolucaoRegistrada(sucesso)
-    UI --&gt; Funcionario: Devolução registrada com sucesso
-else Chave não emprestada
-    CHV --&gt; UI: chaveNaoEmprestada(mensagem)
-    UI --&gt; Funcionario: Chave não está emprestada
-end
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Consultas e Relatórios -->
-            <div class="category-card" data-category="consultas-e-relatórios">
-                <div class="category-title">
-                    <i class="fas fa-chart-bar"></i>
-                    Consultas e Relatórios
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU08 - Consultar Histórico de Movimentações</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Consultar Histórico de Movimentações.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU08</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Funcionario
-participant &quot;Interface&quot; as UI
-participant &quot;:RegistroLocacao&quot; as REG
-
-Funcionario -&gt; UI: Aplicar filtros de busca
-UI -&gt; REG: consultarHistorico(filtros)
-REG -&gt; REG: buscarMovimentacoes(filtros)
-REG --&gt; UI: listaMovimentacoes
-UI --&gt; Funcionario: Exibir histórico de movimentações
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU09 - Consultar Chaves Emprestadas</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Consultar Chaves Emprestadas.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU09</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Funcionario
-participant &quot;Interface&quot; as UI
-participant &quot;:RegistroLocacao&quot; as REG
-participant &quot;:Chave&quot; as CHV
-
-Funcionario -&gt; UI: Consultar chaves emprestadas
-UI -&gt; REG: obterEmprestimosAtivos()
-REG -&gt; REG: buscarEmprestimosAtivos()
-REG --&gt; UI: listaEmprestimos
-UI -&gt; CHV: obterDadosChaves(listaChaves)
-CHV --&gt; UI: dadosChaves
-UI --&gt; Funcionario: Exibir chaves emprestadas
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="diagram-item">
-                    <div class="diagram-header" onclick="toggleDiagram(this)">
-                        <span class="diagram-title">CU10 - Gerar Relatórios de Movimentação</span>
-                        <i class="fas fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="diagram-content">
-                        <div class="tab-container">
-                            <div class="tab active" onclick="switchTab(this, 'diagram')">
-                                <i class="fas fa-chart-line"></i> Diagrama
-                            </div>
-                            <div class="tab" onclick="switchTab(this, 'code')">
-                                <i class="fas fa-code"></i> Código
-                            </div>
-                        </div>
-                        <div class="tab-content active" data-tab="diagram">
-                            <img src="Gerar Relatórios de Movimentação.png" class="diagram-image">
-                        </div>
-                        <div class="tab-content" data-tab="code">
-                            <div class="code-container">
-                                <div class="code-header">
-                                    <span>CU10</span>
-                                    <button class="copy-btn" onclick="copyCode(this)">
-                                        <i class="fas fa-copy"></i> Copiar
-                                    </button>
-                                </div>
-                                <pre><code class="language-plantuml">@startuml
-actor Funcionario
-participant &quot;Interface&quot; as UI
-participant &quot;:RegistroLocacao&quot; as REG
-participant &quot;GeradorRelatorio&quot; as GR
-
-Funcionario -&gt; UI: Selecionar tipo de relatório e filtros
-UI -&gt; REG: obterDadosRelatorio(filtros)
-REG -&gt; REG: buscarMovimentacoes(filtros)
-REG --&gt; UI: dadosRelatorio
-UI -&gt; GR: processarDados(dadosRelatorio, tipoRelatorio)
-GR --&gt; UI: relatorioProcessado
-UI -&gt; GR: exportarRelatorio(formato)
-GR --&gt; UI: arquivoRelatorio
-UI --&gt; Funcionario: Download do relatório
-@enduml</code></pre>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>Sistema de Gerenciamento de Chaves &copy; 2025 - Todos os direitos reservados</p>
-        </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-plantuml.min.js"></script>
-    <script>
-        // Toggle diagram content
-        function toggleDiagram(element) {
-            const content = element.nextElementSibling;
-            const icon = element.querySelector('.toggle-icon');
+    <script src="slides/pocketbase.umd.js"></script>
 
-            if (content.classList.contains('active')) {
-                content.classList.remove('active');
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                content.classList.add('active');
-                icon.style.transform = 'rotate(180deg)';
+    
+
+    <script>
+        
+        pb = new PocketBase("https://geografia.tech");
+        
+        // Dados dos slides (substitua pela sua requisição à API)
+        const slidesData = [
+  {
+    "arquivo": "slides/Slide1.PNG",
+    "ordem": 1,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide2.PNG",
+    "ordem": 2,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide3.PNG",
+    "ordem": 3,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide4.PNG",
+    "ordem": 4,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide5.PNG",
+    "ordem": 5,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide6.PNG",
+    "ordem": 6,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide7.PNG",
+    "ordem": 7,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide8.PNG",
+    "ordem": 8,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide9.PNG",
+    "ordem": 9,
+    "video": false
+  }
+];
+
+        let currentSlide = 0;
+        let slides = [];
+
+        // Função para carregar dados da API
+        async function loadSlidesFromAPI() {
+            try {
+                // Descomente e modifique a linha abaixo para usar sua API real
+                // const response = await fetch('SUA_URL_API_AQUI');
+                // const data = await response.json();
+                
+                // Para demonstração, usando dados estáticos
+                const data = slidesData;
+                
+                // Ordena os slides pela ordem
+                data.sort((a, b) => a.ordem - b.ordem);
+                
+                return data;
+            } catch (error) {
+                console.error('Erro ao carregar slides:', error);
+                throw error;
             }
         }
 
-        // Switch between tabs
-        function switchTab(tab, tabType) {
-            const tabContainer = tab.parentElement;
-            const contentContainer = tabContainer.nextElementSibling.parentElement;
+        // Função para criar elemento de slide
+        function createSlideElement(slideData, index) {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            slideDiv.id = `slide-${index}`;
 
-            // Remove active class from all tabs
-            tabContainer.querySelectorAll('.tab').forEach(t => {
-                t.classList.remove('active');
-            });
+            if (slideData.video) {
+                const video = document.createElement('video');
+                video.src = slideData.arquivo;
+                video.controls = true;
+                video.preload = 'metadata';
+                video.loop = true;
+                video.onloadeddata = () => console.log(`Vídeo ${index + 1} carregado`);
+                video.onerror = () => console.error(`Erro ao carregar vídeo ${index + 1}`);
+                slideDiv.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = slideData.arquivo;
+                img.alt = `Slide ${index + 1}`;
+                img.onload = () => console.log(`Imagem ${index + 1} carregada`);
+                img.onerror = () => console.error(`Erro ao carregar imagem ${index + 1}`);
+                slideDiv.appendChild(img);
+            }
 
-            // Add active class to clicked tab
-            tab.classList.add('active');
-
-            // Hide all tab contents
-            contentContainer.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-
-            // Show selected tab content
-            contentContainer.querySelector(`[data-tab="${tabType}"]`).classList.add('active');
+            return slideDiv;
         }
 
-        // Copy code to clipboard
-        function copyCode(button) {
-            const codeBlock = button.closest('.code-container').querySelector('code');
-            const textArea = document.createElement('textarea');
-            textArea.value = codeBlock.textContent;
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
+        // Função para mostrar slide específico
+        function showSlide(index) {
+            // Remove classe active de todos os slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Pausa todos os vídeos
+            document.querySelectorAll('video').forEach(video => {
+                video.pause();
+            });
 
-            // Show copied feedback
-            button.innerHTML = '<i class="fas fa-check"></i> Copiado';
-            button.classList.add('copied');
-
-            setTimeout(() => {
-                button.innerHTML = '<i class="fas fa-copy"></i> Copiar';
-                button.classList.remove('copied');
-            }, 2000);
+            // Mostra o slide atual
+            if (slides[index]) {
+                slides[index].classList.add('active');
+                
+                // Se for vídeo, pode começar automaticamente (opcional)
+                const video = slides[index].querySelector('video');
+                if (video) {
+                    // video.play(); // Descomente se quiser autoplay
+                }
+            }
         }
 
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const categories = document.querySelectorAll('.category-card');
-            let hasResults = false;
+        // Função para mudar slide
+        function changeSlide(direction) {
+            const newIndex = currentSlide + direction;
+            
+            if (newIndex >= 0 && newIndex < slides.length) {
+                currentSlide = newIndex;
+                showSlide(currentSlide);
+            }
+        }
 
-            categories.forEach(category => {
-                const diagrams = category.querySelectorAll('.diagram-item');
-                let categoryHasResults = false;
-
-                diagrams.forEach(diagram => {
-                    const title = diagram.querySelector('.diagram-title').textContent.toLowerCase();
-                    const code = diagram.querySelector('code').textContent.toLowerCase();
-
-                    if (title.includes(searchTerm) || code.includes(searchTerm)) {
-                        diagram.style.display = 'block';
-                        categoryHasResults = true;
-                        hasResults = true;
-                    } else {
-                        diagram.style.display = 'none';
+        // Event listeners para teclado
+        document.addEventListener('keydown', (e) => {
+            
+            const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                        }
                     }
-                });
+                    else
+                    {
+                        changeSlide(-1);
+                    }
+                    
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
 
-                if (categoryHasResults || category.querySelector('.category-title').textContent.toLowerCase().includes(searchTerm)) {
-                    category.style.display = 'block';
-                } else {
-                    category.style.display = 'none';
-                }
-            });
+                    
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                    }
+                    else
+                    {
+                        changeSlide(1);
+                    }
 
-            // Show no results message
-            const noResultsElement = document.getElementById('noResults');
-            if (!hasResults && searchTerm !== '') {
-                if (!noResultsElement) {
-                    const noResults = document.createElement('div');
-                    noResults.id = 'noResults';
-                    noResults.className = 'no-results';
-                    noResults.innerHTML = '<i class="fas fa-search"></i><p>Nenhum resultado encontrado para "' + searchTerm + '"</p>';
-                    document.getElementById('categoriesContainer').appendChild(noResults);
-                }
-            } else if (noResultsElement) {
-                noResultsElement.remove();
+                    
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    const currentVideo = slides[currentSlide]?.querySelector('video');
+                    if (currentVideo) {
+                        if (currentVideo.paused) {
+                            currentVideo.play();
+                        } else {
+                            currentVideo.pause();
+                        }
+                    }
+                    break;
             }
         });
+
+        // Função principal para inicializar
+        async function initSlideshow() {
+            
+            
+            await pb.realtime.subscribe('slide', (e) => {
+                if(e['avancar'])
+                {
+                    //Se for o slide de vídeo, dá play nele.
+
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(1);
+                    
+                }
+                else
+                {
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                            //changeSlide(-1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(-1);
+                    
+                    
+                }
+            })
+            
+            const loadingDiv = document.getElementById('loading');
+            const container = document.querySelector('.slideshow-container');
+            
+            slidesData.forEach((slideData, index) => {
+                const slideElement = createSlideElement(slideData, index);
+                container.appendChild(slideElement);
+                slides.push(slideElement);
+            });
+
+            // Remove loading
+            loadingDiv.style.display = 'none';
+            
+            // Mostra primeiro slide
+            showSlide(0);
+        }
+
+        // Inicializa quando a página carrega
+        document.addEventListener('DOMContentLoaded', initSlideshow);
     </script>
 </body>
 </html>
