@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação de Slides</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: block;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: center;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        .slide img {
+            max-width: 100%;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+        }
+
+        .slide video {
+            max-width: 100%;
+            max-height: 100vh;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            -webkit-transform: translateX(-50%);
+            z-index: 1000;
+            display: none; /* Oculto por padrão, será mostrado se necessário */
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn:hover, .btn:active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .slide {
+                width: 100%;
+                height: 100vh;
+            }
+            
+            .controls {
+                display: block; /* Mostra controles em telas menores */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando slides...</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="changeSlide(-1)">◀ Anterior</button>
+        <button class="btn" onclick="toggleVideo()">⏯ Play/Pause</button>
+        <button class="btn" onclick="changeSlide(1)">Próximo ▶</button>
+    </div>
+
+    <script>
+        // Variáveis globais
+        var currentSlide = 0;
+        var slides = [];
+        var slidesData = [
+            {
+                "arquivo": "slides/Slide1.PNG",
+                "ordem": 1,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide2.PNG",
+                "ordem": 2,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide3.PNG",
+                "ordem": 3,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide4.PNG",
+                "ordem": 4,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide5.PNG",
+                "ordem": 5,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide6.PNG",
+                "ordem": 6,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide7.PNG",
+                "ordem": 7,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide8.PNG",
+                "ordem": 8,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide9.PNG",
+                "ordem": 9,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide10.PNG",
+                "ordem": 10,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide11.PNG",
+                "ordem": 11,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide12.PNG",
+                "ordem": 12,
+                "video": false
+            },
+            {
+                "arquivo": "slides/Slide13.PNG",
+                "ordem": 13,
+                "video": false
+            }
+            ];
+
+        // Função para criar elemento de slide (compatível com versões antigas)
+        function createSlideElement(slideData, index) {
+            var slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            slideDiv.id = 'slide-' + index;
+
+            if (slideData.video) {
+                var video = document.createElement('video');
+                video.src = slideData.arquivo;
+                video.controls = true;
+                video.preload = 'metadata';
+                video.loop = true;
+                video.setAttribute('playsinline', 'true'); // Importante para iOS
+                video.setAttribute('webkit-playsinline', 'true'); // Para versões mais antigas do iOS
+                
+                video.onloadeddata = function() {
+                    console.log('Vídeo ' + (index + 1) + ' carregado');
+                };
+                video.onerror = function() {
+                    console.error('Erro ao carregar vídeo ' + (index + 1));
+                };
+                
+                slideDiv.appendChild(video);
+            } else {
+                var img = document.createElement('img');
+                img.src = slideData.arquivo;
+                img.alt = 'Slide ' + (index + 1);
+                
+                img.onload = function() {
+                    console.log('Imagem ' + (index + 1) + ' carregada');
+                };
+                img.onerror = function() {
+                    console.error('Erro ao carregar imagem ' + (index + 1));
+                };
+                
+                slideDiv.appendChild(img);
+            }
+
+            return slideDiv;
+        }
+
+        // Função para mostrar slide específico
+        function showSlide(index) {
+            // Remove classe active de todos os slides
+            for (var i = 0; i < slides.length; i++) {
+                slides[i].className = slides[i].className.replace(' active', '');
+            }
+            
+            // Pausa todos os vídeos
+            var videos = document.getElementsByTagName('video');
+            for (var i = 0; i < videos.length; i++) {
+                videos[i].pause();
+            }
+
+            // Mostra o slide atual
+            if (slides[index]) {
+                slides[index].className += ' active';
+            }
+        }
+
+        // Função para mudar slide
+        function changeSlide(direction) {
+            var newIndex = currentSlide + direction;
+            
+            if (newIndex >= 0 && newIndex < slides.length) {
+                currentSlide = newIndex;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Função para controlar vídeo
+        function toggleVideo() {
+            var currentSlideElement = document.getElementById('slide-' + currentSlide);
+            if (currentSlideElement) {
+                var video = currentSlideElement.getElementsByTagName('video')[0];
+                if (video) {
+                    if (video.paused) {
+                        video.play();
+                    } else {
+                        video.pause();
+                    }
+                }
+            }
+        }
+
+        // Event listeners para teclado (compatível com versões antigas)
+        function handleKeyPress(e) {
+            e = e || window.event;
+            var currentSlideElement = document.getElementById('slide-' + currentSlide);
+            var video = null;
+            
+            if (currentSlideElement) {
+                var videos = currentSlideElement.getElementsByTagName('video');
+                if (videos.length > 0) {
+                    video = videos[0];
+                }
+            }
+            
+            var keyCode = e.keyCode || e.which;
+            
+            switch(keyCode) {
+                case 37: // ArrowLeft
+                    if (e.preventDefault) e.preventDefault();
+                    
+                    if (video) {
+                        if (video.paused) {
+                            changeSlide(-1);
+                        } else {
+                            video.pause();
+                        }
+                    } else {
+                        changeSlide(-1);
+                    }
+                    break;
+                    
+                case 39: // ArrowRight
+                    if (e.preventDefault) e.preventDefault();
+                    
+                    if (video) {
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            changeSlide(1);
+                        }
+                    } else {
+                        changeSlide(1);
+                    }
+                    break;
+                    
+                case 32: // Space
+                    if (e.preventDefault) e.preventDefault();
+                    toggleVideo();
+                    break;
+            }
+        }
+
+        // Suporte a touch para iPad
+        var touchStartX = 0;
+        var touchEndX = 0;
+
+        function handleTouchStart(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        }
+
+        function handleTouchEnd(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }
+
+        function handleSwipe() {
+            var swipeThreshold = 50;
+            var diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    // Swipe left - próximo slide
+                    changeSlide(1);
+                } else {
+                    // Swipe right - slide anterior
+                    changeSlide(-1);
+                }
+            }
+        }
+
+        // Função principal para inicializar
+        function initSlideshow() {
+            var loadingDiv = document.getElementById('loading');
+            var container = document.getElementsByClassName('slideshow-container')[0];
+            
+            // Ordena os slides pela ordem
+            slidesData.sort(function(a, b) {
+                return a.ordem - b.ordem;
+            });
+            
+            // Cria os slides
+            for (var i = 0; i < slidesData.length; i++) {
+                var slideElement = createSlideElement(slidesData[i], i);
+                container.appendChild(slideElement);
+                slides.push(slideElement);
+            }
+
+            // Remove loading
+            loadingDiv.style.display = 'none';
+            
+            // Mostra primeiro slide
+            showSlide(0);
+            
+            // Adiciona event listeners
+            if (document.addEventListener) {
+                document.addEventListener('keydown', handleKeyPress, false);
+                document.addEventListener('touchstart', handleTouchStart, false);
+                document.addEventListener('touchend', handleTouchEnd, false);
+            } else if (document.attachEvent) {
+                document.attachEvent('onkeydown', handleKeyPress);
+            }
+        }
+
+        // Inicializa quando a página carrega (compatível com versões antigas)
+        if (document.addEventListener) {
+            document.addEventListener('DOMContentLoaded', initSlideshow, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('onreadystatechange', function() {
+                if (document.readyState === 'complete') {
+                    initSlideshow();
+                }
+            });
+        } else {
+            window.onload = initSlideshow;
+        }
+    </script>
+</body>
+</html>
