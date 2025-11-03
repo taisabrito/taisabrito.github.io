@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação de Slides</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide img {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+
+        .slide video {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .slide {
+                width: 100%;
+                height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Carregando slides...</p>
+        </div>
+
+
+
+        <!-- Os slides serão inseridos aqui dinamicamente -->
+        
+
+    </div>
+
+    <script src="slides/pocketbase.umd.js"></script>
+
+    
+
+    <script>
+        
+        pb = new PocketBase("https://geografia.tech");
+        
+        // Dados dos slides (substitua pela sua requisição à API)
+        const slidesData = [
+  {
+    "arquivo": "slides/Slide1.PNG",
+    "ordem": 1,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide2.PNG",
+    "ordem": 2,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide3.PNG",
+    "ordem": 3,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide4.PNG",
+    "ordem": 4,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide5.PNG",
+    "ordem": 5,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide6.PNG",
+    "ordem": 6,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide7.PNG",
+    "ordem": 7,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide8.PNG",
+    "ordem": 8,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide9.PNG",
+    "ordem": 9,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide10.PNG",
+    "ordem": 10,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide11.PNG",
+    "ordem": 11,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide12.PNG",
+    "ordem": 12,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide13.PNG",
+    "ordem": 13,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide14.PNG",
+    "ordem": 14,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide15.PNG",
+    "ordem": 15,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide16.PNG",
+    "ordem": 16,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide17.PNG",
+    "ordem": 17,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide18.PNG",
+    "ordem": 18,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide19.PNG",
+    "ordem": 19,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide20.PNG",
+    "ordem": 20,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide21.PNG",
+    "ordem": 21,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide22.PNG",
+    "ordem": 22,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide23.PNG",
+    "ordem": 23,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide24.PNG",
+    "ordem": 24,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide25.PNG",
+    "ordem": 25,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide26.PNG",
+    "ordem": 26,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide27.PNG",
+    "ordem": 27,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide28.PNG",
+    "ordem": 28,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide29.PNG",
+    "ordem": 29,
+    "video": false
+  },
+  {
+    "arquivo": "slides/Slide30.PNG",
+    "ordem": 30,
+    "video": false
+  }
+];
+
+        let currentSlide = 0;
+        let slides = [];
+
+        // Função para carregar dados da API
+        async function loadSlidesFromAPI() {
+            try {
+                // Descomente e modifique a linha abaixo para usar sua API real
+                // const response = await fetch('SUA_URL_API_AQUI');
+                // const data = await response.json();
+                
+                // Para demonstração, usando dados estáticos
+                const data = slidesData;
+                
+                // Ordena os slides pela ordem
+                data.sort((a, b) => a.ordem - b.ordem);
+                
+                return data;
+            } catch (error) {
+                console.error('Erro ao carregar slides:', error);
+                throw error;
+            }
+        }
+
+        // Função para criar elemento de slide
+        function createSlideElement(slideData, index) {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            slideDiv.id = `slide-${index}`;
+
+            if (slideData.video) {
+                const video = document.createElement('video');
+                video.src = slideData.arquivo;
+                video.controls = true;
+                video.preload = 'metadata';
+                video.loop = true;
+                video.onloadeddata = () => console.log(`Vídeo ${index + 1} carregado`);
+                video.onerror = () => console.error(`Erro ao carregar vídeo ${index + 1}`);
+                slideDiv.appendChild(video);
+            } else {
+                const img = document.createElement('img');
+                img.src = slideData.arquivo;
+                img.alt = `Slide ${index + 1}`;
+                img.onload = () => console.log(`Imagem ${index + 1} carregada`);
+                img.onerror = () => console.error(`Erro ao carregar imagem ${index + 1}`);
+                slideDiv.appendChild(img);
+            }
+
+            return slideDiv;
+        }
+
+        // Função para mostrar slide específico
+        function showSlide(index) {
+            // Remove classe active de todos os slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Pausa todos os vídeos
+            document.querySelectorAll('video').forEach(video => {
+                video.pause();
+            });
+
+            // Mostra o slide atual
+            if (slides[index]) {
+                slides[index].classList.add('active');
+                
+                // Se for vídeo, pode começar automaticamente (opcional)
+                const video = slides[index].querySelector('video');
+                if (video) {
+                    // video.play(); // Descomente se quiser autoplay
+                }
+            }
+        }
+
+        // Função para mudar slide
+        function changeSlide(direction) {
+            const newIndex = currentSlide + direction;
+            
+            if (newIndex >= 0 && newIndex < slides.length) {
+                currentSlide = newIndex;
+                showSlide(currentSlide);
+            }
+        }
+
+        // Event listeners para teclado
+        document.addEventListener('keydown', (e) => {
+            
+            const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                        }
+                    }
+                    else
+                    {
+                        changeSlide(-1);
+                    }
+                    
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+
+                    
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                    }
+                    else
+                    {
+                        changeSlide(1);
+                    }
+
+                    
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    const currentVideo = slides[currentSlide]?.querySelector('video');
+                    if (currentVideo) {
+                        if (currentVideo.paused) {
+                            currentVideo.play();
+                        } else {
+                            currentVideo.pause();
+                        }
+                    }
+                    break;
+            }
+        });
+
+        // Função principal para inicializar
+        async function initSlideshow() {
+            
+            
+            await pb.realtime.subscribe('slide', (e) => {
+                if(e['avancar'])
+                {
+                    //Se for o slide de vídeo, dá play nele.
+
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            video.play();
+                        }
+                        else
+                        {
+                            changeSlide(1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(1);
+                    
+                }
+                else
+                {
+                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
+
+                    if(video != null)
+                    {
+                        if(video.paused)
+                        {
+                            changeSlide(-1);
+                        }
+                        else
+                        {
+                            video.pause();
+                            //changeSlide(-1);
+                        }
+                        return;
+                    }
+                    
+                    changeSlide(-1);
+                    
+                    
+                }
+            })
+            
+            const loadingDiv = document.getElementById('loading');
+            const container = document.querySelector('.slideshow-container');
+            
+            slidesData.forEach((slideData, index) => {
+                const slideElement = createSlideElement(slideData, index);
+                container.appendChild(slideElement);
+                slides.push(slideElement);
+            });
+
+            // Remove loading
+            loadingDiv.style.display = 'none';
+            
+            // Mostra primeiro slide
+            showSlide(0);
+        }
+
+        // Inicializa quando a página carrega
+        document.addEventListener('DOMContentLoaded', initSlideshow);
+    </script>
+</body>
+</html>
