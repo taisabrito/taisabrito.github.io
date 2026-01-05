@@ -277,9 +277,34 @@
             background: #667eea;
             border-radius: 10px;
         }
+
+        .export-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #5563c1;
+        }
+
+        .hide-for-export {
+            display: none !important;
+        }
+
     </style>
 </head>
 <body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    
     <div class="container">
         <header>
             <h1>📚 Seleção de Turmas</h1>
@@ -292,7 +317,7 @@
                 <div id="turmasList"></div>
             </div>
 
-            <div class="sidebar">
+            <div class="sidebar" id="exportArea">
                 <div class="selected-panel">
                     <h2>Turmas Selecionadas</h2>
                     <div class="conflict-warning" id="conflictWarning">
@@ -313,6 +338,10 @@
 
                 <div class="schedule-grid">
                     <h2>Grade Horária</h2>
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                        <button onclick="exportImage()" class="export-btn no-export">📷 Exportar Imagem</button>
+                        <button onclick="exportPDF()" class="export-btn no-export">📄 Exportar PDF</button>
+                    </div>
                     <table class="grid-table">
                         <thead>
                             <tr>
@@ -331,6 +360,83 @@
             </div>
         </div>
     </div>
+
+    <script>
+function exportPDF() {
+    toggleExportElements(true);
+
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById('exportArea');
+
+    html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        // Tamanho real da imagem
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+
+        // Fator de escala para caber na página
+        const ratio = Math.min(
+            pageWidth / imgWidth,
+            pageHeight / imgHeight
+        );
+
+        const renderWidth = imgWidth * ratio;
+        const renderHeight = imgHeight * ratio;
+
+        // Centralizar
+        const x = (pageWidth - renderWidth) / 2;
+        const y = (pageHeight - renderHeight) / 2;
+
+        pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight);
+        pdf.save('grade-horaria-2026-1.pdf');
+
+        toggleExportElements(false);
+    });
+}
+</script>
+
+
+
+<script>
+function toggleExportElements(hide) {
+    document.querySelectorAll('.no-export').forEach(el => {
+        el.classList.toggle('hide-for-export', hide);
+    });
+}
+</script>
+
+
+
+    <script>
+function exportImage() {
+    toggleExportElements(true);
+
+    const element = document.getElementById('exportArea');
+
+    html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#ffffff'
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'grade-horaria-2026-1.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+
+        toggleExportElements(false);
+    });
+}
+</script>
+
+
 
     <script>
         const turmas = [
@@ -440,7 +546,7 @@
                             <div class="selected-item-codigo">${t.codigo}</div>
                             <div class="selected-item-nome">${t.nome}</div>
                         </div>
-                        <button class="remove-btn" onclick="removeTurma('${t.codigo}')">✕</button>
+                        <button class="remove-btn no-export" onclick="removeTurma('${t.codigo}')">✕</button>
                     </div>
                 `).join('');
             }
