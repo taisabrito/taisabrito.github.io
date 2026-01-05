@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação de Slides</title>
+    <title>Grade Horária 2026.1</title>
     <style>
         * {
             margin: 0;
@@ -13,468 +13,515 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #000;
-            color: white;
-            overflow: hidden;
-            height: 100vh;
-        }
-
-        .slideshow-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slide {
-            display: none;
-            width: 100%;
-            height: 100vh;
-            position: relative;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .slide.active {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .slide img {
-            max-width: 100%;
-            max-height: 100vh;
-            object-fit: contain;
-        }
-
-        .slide video {
-            max-width: 100%;
-            max-height: 100vh;
-            object-fit: contain;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-
-
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .loading-spinner {
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 4px solid #fff;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            color: #ff6b6b;
-            background: rgba(255, 107, 107, 0.1);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
             padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin: 20px;
         }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .slide {
-                width: 100%;
-                height: 100vh;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 20px;
+        }
+
+        .turmas-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .turma-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .turma-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .turma-card.selected {
+            background: #e8f0fe;
+            border-color: #667eea;
+        }
+
+        .turma-card.conflict {
+            background: #fee;
+            border-color: #f44336;
+            opacity: 0.6;
+        }
+
+        .turma-codigo {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .turma-nome {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .turma-horarios {
+            font-size: 0.85em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .turma-vagas {
+            display: inline-block;
+            background: #4caf50;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .selected-panel, .schedule-grid {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .selected-panel h2, .schedule-grid h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .selected-item {
+            background: #f0f4ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .selected-item-info {
+            flex: 1;
+        }
+
+        .selected-item-codigo {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 0.85em;
+        }
+
+        .selected-item-nome {
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .remove-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: background 0.3s;
+        }
+
+        .remove-btn:hover {
+            background: #d32f2f;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75em;
+            margin-top: 10px;
+        }
+
+        .grid-table th {
+            background: #667eea;
+            color: white;
+            padding: 8px 4px;
+            font-weight: 600;
+        }
+
+        .grid-table td {
+            border: 1px solid #e0e0e0;
+            padding: 4px;
+            text-align: center;
+            height: 30px;
+        }
+
+        .grid-table td.occupied {
+            background: #667eea;
+            color: white;
+            font-size: 0.7em;
+            font-weight: 600;
+        }
+
+        .conflict-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            color: #856404;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .conflict-warning.show {
+            display: block;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 30px;
+            font-style: italic;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
             }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
-    <div class="slideshow-container">
-        <div class="loading" id="loading">
-            <div class="loading-spinner"></div>
-            <p>Carregando slides...</p>
+    <div class="container">
+        <header>
+            <h1>📚 Seleção de Turmas</h1>
+            <p class="subtitle">Semestre 2026.1 | Sistema Inteligente de Matrícula</p>
+        </header>
+
+        <div class="main-content">
+            <div class="turmas-panel">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar disciplina...">
+                <div id="turmasList"></div>
+            </div>
+
+            <div class="sidebar">
+                <div class="selected-panel">
+                    <h2>Turmas Selecionadas</h2>
+                    <div class="conflict-warning" id="conflictWarning">
+                        ⚠️ Atenção! Há choques de horários entre suas turmas.
+                    </div>
+                    <div id="selectedList"></div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalTurmas">0</div>
+                            <div class="stat-label">Turmas</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalCreditos">0</div>
+                            <div class="stat-label">Créditos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-grid">
+                    <h2>Grade Horária</h2>
+                    <table class="grid-table">
+                        <thead>
+                            <tr>
+                                <th>Horário</th>
+                                <th>Seg</th>
+                                <th>Ter</th>
+                                <th>Qua</th>
+                                <th>Qui</th>
+                                <th>Sex</th>
+                                <th>Sáb</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gridBody"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-
-
-
-        <!-- Os slides serão inseridos aqui dinamicamente -->
-        
-
     </div>
 
-    <script src="slides/pocketbase.umd.js"></script>
-
-    
-
     <script>
-        
-        pb = new PocketBase("https://geografia.tech");
-        
-        // Dados dos slides (substitua pela sua requisição à API)
-        const slidesData = [
-  {
-    "arquivo": "slides/Slide1.PNG",
-    "ordem": 1,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide2.PNG",
-    "ordem": 2,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide3.PNG",
-    "ordem": 3,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide4.PNG",
-    "ordem": 4,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide5.PNG",
-    "ordem": 5,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide6.PNG",
-    "ordem": 6,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide7.PNG",
-    "ordem": 7,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide8.PNG",
-    "ordem": 8,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide9.PNG",
-    "ordem": 9,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide10.PNG",
-    "ordem": 10,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide11.PNG",
-    "ordem": 11,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide12.PNG",
-    "ordem": 12,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide13.PNG",
-    "ordem": 13,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide14.PNG",
-    "ordem": 14,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide15.PNG",
-    "ordem": 15,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide16.PNG",
-    "ordem": 16,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide17.PNG",
-    "ordem": 17,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide18.PNG",
-    "ordem": 18,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide19.PNG",
-    "ordem": 19,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide20.PNG",
-    "ordem": 20,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide21.PNG",
-    "ordem": 21,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide22.PNG",
-    "ordem": 22,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide23.PNG",
-    "ordem": 23,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide24.PNG",
-    "ordem": 24,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide25.PNG",
-    "ordem": 25,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide26.PNG",
-    "ordem": 26,
-    "video": false
-  },
-  {
-    "arquivo": "slides/Slide27.PNG",
-    "ordem": 27,
-    "video": false
-  }
-];
+        const turmas = [
+            {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
+            {codigo: "DCT1102", nome: "INTRODUÇÃO À INFORMÁTICA", horarios: "23T56 (02/03/2026 - 11/07/2026)", vagas: 55},
+            {codigo: "DCT1107", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS I", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT1108", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS II", horarios: "24T34 (02/03/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT1110", nome: "PROGRAMAÇÃO VISUAL", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT1202", nome: "FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT1301", nome: "FUNDAMENTOS DE MATEMÁTICA", horarios: "34T34 (02/03/2026 - 11/07/2026)", vagas: 55},
+            {codigo: "DCT1302", nome: "LÓGICA", horarios: "56T12 (02/03/2026 - 11/06/2026), 567T12 (12/06/2026 - 11/07/2026)", vagas: 55},
+            {codigo: "DCT1304", nome: "ÁLGEBRA LINEAR", horarios: "56T56 (02/03/2026 - 11/06/2026), 56T56 7T5 (12/06/2026 - 11/07/2026)", vagas: 55},
+            {codigo: "DCT1309", nome: "MATEMÁTICA FINANCEIRA", horarios: "34T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT2101", nome: "SISTEMAS OPERACIONAIS", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT2202", nome: "PROJETO E ADMINISTRAÇÃO DE BANCO DE DADOS", horarios: "35T12 (02/03/2026 - 11/06/2026), 35T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT2302", nome: "ENGENHARIA DE SOFTWARE II", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT2401", nome: "GESTÃO DA INFORMAÇÃO E DOS SISTEMAS DE INFORMAÇÃO", horarios: "6M1234 (02/03/2026 - 11/06/2026), 6M1234 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT3101", nome: "TEORIA GERAL DA ADMINISTRAÇÃO", horarios: "56T34 (02/03/2026 - 21/06/2026), 567T34 (22/06/2026 - 11/07/2026)", vagas: 57},
+            {codigo: "DCT3102", nome: "ORGANIZAÇÃO, SISTEMAS E MÉTODOS", horarios: "2T34 4T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT4101", nome: "ADMINISTRAÇÃO DE SERVIDORES DE REDE", horarios: "2T3456 (02/03/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT4401", nome: "TÓPICOS AVANÇADOS EM PROGRAMAÇÃO I", horarios: "34M56 (02/03/2026 - 11/07/2026)", vagas: 30},
+            {codigo: "DCT4501", nome: "TÓPICOS ESPECIAIS EM CIÊNCIA E PRODUÇÃO DE CONHECIMENTO", horarios: "5T3456 (02/03/2026 - 11/06/2026), 5T3456 7T6 (12/06/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DCT4502", nome: "MÉTODOS QUANTITATIVOS DE PESQUISA", horarios: "45M12 (02/03/2026 - 11/06/2026), 45M12 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+            {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
+        ];
 
-        let currentSlide = 0;
-        let slides = [];
+        let selectedTurmas = [];
 
-        // Função para carregar dados da API
-        async function loadSlidesFromAPI() {
-            try {
-                // Descomente e modifique a linha abaixo para usar sua API real
-                // const response = await fetch('SUA_URL_API_AQUI');
-                // const data = await response.json();
-                
-                // Para demonstração, usando dados estáticos
-                const data = slidesData;
-                
-                // Ordena os slides pela ordem
-                data.sort((a, b) => a.ordem - b.ordem);
-                
-                return data;
-            } catch (error) {
-                console.error('Erro ao carregar slides:', error);
-                throw error;
-            }
-        }
-
-        // Função para criar elemento de slide
-        function createSlideElement(slideData, index) {
-            const slideDiv = document.createElement('div');
-            slideDiv.className = 'slide';
-            slideDiv.id = `slide-${index}`;
-
-            if (slideData.video) {
-                const video = document.createElement('video');
-                video.src = slideData.arquivo;
-                video.controls = true;
-                video.preload = 'metadata';
-                video.loop = true;
-                video.onloadeddata = () => console.log(`Vídeo ${index + 1} carregado`);
-                video.onerror = () => console.error(`Erro ao carregar vídeo ${index + 1}`);
-                slideDiv.appendChild(video);
-            } else {
-                const img = document.createElement('img');
-                img.src = slideData.arquivo;
-                img.alt = `Slide ${index + 1}`;
-                img.onload = () => console.log(`Imagem ${index + 1} carregada`);
-                img.onerror = () => console.error(`Erro ao carregar imagem ${index + 1}`);
-                slideDiv.appendChild(img);
-            }
-
-            return slideDiv;
-        }
-
-        // Função para mostrar slide específico
-        function showSlide(index) {
-            // Remove classe active de todos os slides
-            slides.forEach(slide => slide.classList.remove('active'));
+        function parseHorarios(horarioStr) {
+            const slots = [];
+            const parts = horarioStr.split(',').map(p => p.trim());
             
-            // Pausa todos os vídeos
-            document.querySelectorAll('video').forEach(video => {
-                video.pause();
+            parts.forEach(part => {
+                const match = part.match(/([2-7]+)([MTN])(\d+)/g);
+                if (match) {
+                    match.forEach(h => {
+                        const dias = h.match(/[2-7]+/)[0].split('');
+                        const turno = h.match(/[MTN]/)[0];
+                        const horas = h.match(/\d+$/)[0].split('');
+                        
+                        dias.forEach(dia => {
+                            horas.forEach(hora => {
+                                slots.push(`${dia}${turno}${hora}`);
+                            });
+                        });
+                    });
+                }
             });
+            
+            return slots;
+        }
 
-            // Mostra o slide atual
-            if (slides[index]) {
-                slides[index].classList.add('active');
-                
-                // Se for vídeo, pode começar automaticamente (opcional)
-                const video = slides[index].querySelector('video');
-                if (video) {
-                    // video.play(); // Descomente se quiser autoplay
+        function hasConflict(turma1, turma2) {
+            const slots1 = parseHorarios(turma1.horarios);
+            const slots2 = parseHorarios(turma2.horarios);
+            return slots1.some(s => slots2.includes(s));
+        }
+
+        function checkConflicts() {
+            const conflicts = [];
+            for (let i = 0; i < selectedTurmas.length; i++) {
+                for (let j = i + 1; j < selectedTurmas.length; j++) {
+                    if (hasConflict(selectedTurmas[i], selectedTurmas[j])) {
+                        conflicts.push([selectedTurmas[i].codigo, selectedTurmas[j].codigo]);
+                    }
                 }
             }
+            return conflicts;
         }
 
-        // Função para mudar slide
-        function changeSlide(direction) {
-            const newIndex = currentSlide + direction;
-            
-            if (newIndex >= 0 && newIndex < slides.length) {
-                currentSlide = newIndex;
-                showSlide(currentSlide);
-            }
-        }
+        function renderTurmas(filter = '') {
+            const list = document.getElementById('turmasList');
+            const filtered = turmas.filter(t => 
+                t.codigo.toLowerCase().includes(filter.toLowerCase()) ||
+                t.nome.toLowerCase().includes(filter.toLowerCase())
+            );
 
-        // Event listeners para teclado
-        document.addEventListener('keydown', (e) => {
-            
-            const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
-            
-            switch(e.key) {
-                case 'ArrowLeft':
-                    e.preventDefault();
+            list.innerHTML = filtered.map(t => {
+                const isSelected = selectedTurmas.some(s => s.codigo === t.codigo);
+                const hasConflictWithSelected = !isSelected && selectedTurmas.some(s => hasConflict(t, s));
                 
-                    if(video != null)
-                    {
-                        if(video.paused)
-                        {
-                            changeSlide(-1);
-                        }
-                        else
-                        {
-                            video.pause();
-                        }
-                    }
-                    else
-                    {
-                        changeSlide(-1);
-                    }
-                    
-                    break;
-                case 'ArrowRight':
-                    e.preventDefault();
+                return `
+                    <div class="turma-card ${isSelected ? 'selected' : ''} ${hasConflictWithSelected ? 'conflict' : ''}" 
+                         onclick="toggleTurma('${t.codigo}')">
+                        <div class="turma-codigo">${t.codigo}</div>
+                        <div class="turma-nome">${t.nome}</div>
+                        <div class="turma-horarios">📅 ${t.horarios}</div>
+                        <span class="turma-vagas">👥 ${t.vagas} vagas</span>
+                    </div>
+                `;
+            }).join('');
+        }
 
-                    
-                    if(video != null)
-                    {
-                        if(video.paused)
-                        {
-                            video.play();
-                        }
-                        else
-                        {
-                            changeSlide(1);
-                        }
-                    }
-                    else
-                    {
-                        changeSlide(1);
-                    }
-
-                    
-                    break;
-                case ' ':
-                    e.preventDefault();
-                    const currentVideo = slides[currentSlide]?.querySelector('video');
-                    if (currentVideo) {
-                        if (currentVideo.paused) {
-                            currentVideo.play();
-                        } else {
-                            currentVideo.pause();
-                        }
-                    }
-                    break;
+        function renderSelected() {
+            const list = document.getElementById('selectedList');
+            const conflicts = checkConflicts();
+            
+            document.getElementById('conflictWarning').classList.toggle('show', conflicts.length > 0);
+            
+            if (selectedTurmas.length === 0) {
+                list.innerHTML = '<div class="empty-state">Nenhuma turma selecionada</div>';
+            } else {
+                list.innerHTML = selectedTurmas.map(t => `
+                    <div class="selected-item">
+                        <div class="selected-item-info">
+                            <div class="selected-item-codigo">${t.codigo}</div>
+                            <div class="selected-item-nome">${t.nome}</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeTurma('${t.codigo}')">✕</button>
+                    </div>
+                `).join('');
             }
+            
+            document.getElementById('totalTurmas').textContent = selectedTurmas.length;
+            document.getElementById('totalCreditos').textContent = selectedTurmas.length * 4;
+        }
+
+        function renderGrid() {
+            const tbody = document.getElementById('gridBody');
+            const horarios = [
+                { label: '07h00 às 07h50', slots: ['M1'] },
+                { label: '07h50 às 08h40', slots: ['M2'] },
+                { label: '08h55 às 09h45', slots: ['M3'] },
+                { label: '09h45 às 10h35', slots: ['M4'] },
+                { label: '10h50 às 11h40', slots: ['M5'] },
+                { label: '11h40 às 12h30', slots: ['M6'] },
+
+                { label: '13h00 às 13h50', slots: ['T1'] },
+                { label: '13h50 às 14h40', slots: ['T2'] },
+                { label: '14h55 às 15h45', slots: ['T3'] },
+                { label: '15h45 às 16h35', slots: ['T4'] },
+                { label: '16h50 às 17h40', slots: ['T5'] },
+                { label: '17h40 às 18h30', slots: ['T6'] },
+
+                { label: '18h45 às 19h35', slots: ['N1'] },
+                { label: '19h35 às 20h25', slots: ['N2'] },
+                { label: '20h35 às 21h25', slots: ['N3'] },
+                { label: '21h25 às 22h15', slots: ['N4'] }
+            ];
+
+            const grid = {};
+            selectedTurmas.forEach(t => {
+                const slots = parseHorarios(t.horarios);
+                slots.forEach(slot => {
+                    const dia = slot[0];
+                    const horario = slot.substring(1);
+                    if (!grid[horario]) grid[horario] = {};
+                    grid[horario][dia] = t.codigo.split('-')[0];
+                });
+            });
+
+            tbody.innerHTML = horarios.map(h => {
+                const cells = ['2', '3', '4', '5', '6', '7'].map(dia => {
+                    let content = '';
+                    h.slots.forEach(slot => {
+                        if (grid[slot] && grid[slot][dia]) {
+                            content = grid[slot][dia];
+                        }
+                    });
+                    return `<td class="${content ? 'occupied' : ''}">${content}</td>`;
+                }).join('');
+                
+                return `<tr><td><strong>${h.label}</strong></td>${cells}</tr>`;
+            }).join('');
+        }
+
+        function toggleTurma(codigo) {
+            const index = selectedTurmas.findIndex(t => t.codigo === codigo);
+            if (index > -1) {
+                selectedTurmas.splice(index, 1);
+            } else {
+                const turma = turmas.find(t => t.codigo === codigo);
+                selectedTurmas.push(turma);
+            }
+            renderTurmas(document.getElementById('searchBox').value);
+            renderSelected();
+            renderGrid();
+        }
+
+        function removeTurma(codigo) {
+            toggleTurma(codigo);
+        }
+
+        document.getElementById('searchBox').addEventListener('input', (e) => {
+            renderTurmas(e.target.value);
         });
 
-        // Função principal para inicializar
-        async function initSlideshow() {
-            
-            
-            await pb.realtime.subscribe('slide', (e) => {
-                if(e['avancar'])
-                {
-                    //Se for o slide de vídeo, dá play nele.
-
-                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
-                    if(video != null)
-                    {
-                        if(video.paused)
-                        {
-                            video.play();
-                        }
-                        else
-                        {
-                            changeSlide(1);
-                        }
-                        return;
-                    }
-                    
-                    changeSlide(1);
-                    
-                }
-                else
-                {
-                    const video = document.querySelector(`#slide-${currentSlide}`).querySelector('video');
-
-                    if(video != null)
-                    {
-                        if(video.paused)
-                        {
-                            changeSlide(-1);
-                        }
-                        else
-                        {
-                            video.pause();
-                            //changeSlide(-1);
-                        }
-                        return;
-                    }
-                    
-                    changeSlide(-1);
-                    
-                    
-                }
-            })
-            
-            const loadingDiv = document.getElementById('loading');
-            const container = document.querySelector('.slideshow-container');
-            
-            slidesData.forEach((slideData, index) => {
-                const slideElement = createSlideElement(slideData, index);
-                container.appendChild(slideElement);
-                slides.push(slideElement);
-            });
-
-            // Remove loading
-            loadingDiv.style.display = 'none';
-            
-            // Mostra primeiro slide
-            showSlide(0);
-        }
-
-        // Inicializa quando a página carrega
-        document.addEventListener('DOMContentLoaded', initSlideshow);
+        renderTurmas();
+        renderSelected();
+        renderGrid();
     </script>
 </body>
 </html>
