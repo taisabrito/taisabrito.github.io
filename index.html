@@ -313,6 +313,17 @@
 
         <div class="main-content">
             <div class="turmas-panel">
+                <select id="cursoSelect" style="
+                    width:100%;
+                    padding:12px 16px;
+                    border-radius:25px;
+                    border:2px solid #e0e0e0;
+                    font-size:1em;
+                    margin-bottom:15px;
+                ">
+                    <option value="geo">Geografia</option>
+                    <option value="si">Sistemas de Informação</option>
+                </select>
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar disciplina...">
                 <div id="turmasList"></div>
             </div>
@@ -361,7 +372,7 @@
         </div>
     </div>
 
-    <script>
+<script>
 function exportPDF() {
     toggleExportElements(true);
 
@@ -404,8 +415,6 @@ function exportPDF() {
 }
 </script>
 
-
-
 <script>
 function toggleExportElements(hide) {
     document.querySelectorAll('.no-export').forEach(el => {
@@ -414,9 +423,7 @@ function toggleExportElements(hide) {
 }
 </script>
 
-
-
-    <script>
+<script>
 function exportImage() {
     toggleExportElements(true);
 
@@ -436,198 +443,275 @@ function exportImage() {
 }
 </script>
 
+<script>
+    /*
+    const turmasSI = [
+        {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1102", nome: "INTRODUÇÃO À INFORMÁTICA", horarios: "23T56 (02/03/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1107", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS I", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1108", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS II", horarios: "24T34 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT1110", nome: "PROGRAMAÇÃO VISUAL", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT1202", nome: "FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1301", nome: "FUNDAMENTOS DE MATEMÁTICA", horarios: "34T34 (02/03/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1302", nome: "LÓGICA", horarios: "56T12 (02/03/2026 - 11/06/2026), 567T12 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1304", nome: "ÁLGEBRA LINEAR", horarios: "56T56 (02/03/2026 - 11/06/2026), 56T56 7T5 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1309", nome: "MATEMÁTICA FINANCEIRA", horarios: "34T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT2101", nome: "SISTEMAS OPERACIONAIS", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT2202", nome: "PROJETO E ADMINISTRAÇÃO DE BANCO DE DADOS", horarios: "35T12 (02/03/2026 - 11/06/2026), 35T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT2302", nome: "ENGENHARIA DE SOFTWARE II", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT2401", nome: "GESTÃO DA INFORMAÇÃO E DOS SISTEMAS DE INFORMAÇÃO", horarios: "6M1234 (02/03/2026 - 11/06/2026), 6M1234 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT3101", nome: "TEORIA GERAL DA ADMINISTRAÇÃO", horarios: "56T34 (02/03/2026 - 21/06/2026), 567T34 (22/06/2026 - 11/07/2026)", vagas: 57},
+        {codigo: "DCT3102", nome: "ORGANIZAÇÃO, SISTEMAS E MÉTODOS", horarios: "2T34 4T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT4101", nome: "ADMINISTRAÇÃO DE SERVIDORES DE REDE", horarios: "2T3456 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT4401", nome: "TÓPICOS AVANÇADOS EM PROGRAMAÇÃO I", horarios: "34M56 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT4501", nome: "TÓPICOS ESPECIAIS EM CIÊNCIA E PRODUÇÃO DE CONHECIMENTO", horarios: "5T3456 (02/03/2026 - 11/06/2026), 5T3456 7T6 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT4502", nome: "MÉTODOS QUANTITATIVOS DE PESQUISA", horarios: "45M12 (02/03/2026 - 11/06/2026), 45M12 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
+    ];
+    */
 
 
-    <script>
-        const turmas = [
-            {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
-            {codigo: "DCT1102", nome: "INTRODUÇÃO À INFORMÁTICA", horarios: "23T56 (02/03/2026 - 11/07/2026)", vagas: 55},
-            {codigo: "DCT1107", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS I", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT1108", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS II", horarios: "24T34 (02/03/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT1110", nome: "PROGRAMAÇÃO VISUAL", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT1202", nome: "FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT1301", nome: "FUNDAMENTOS DE MATEMÁTICA", horarios: "34T34 (02/03/2026 - 11/07/2026)", vagas: 55},
-            {codigo: "DCT1302", nome: "LÓGICA", horarios: "56T12 (02/03/2026 - 11/06/2026), 567T12 (12/06/2026 - 11/07/2026)", vagas: 55},
-            {codigo: "DCT1304", nome: "ÁLGEBRA LINEAR", horarios: "56T56 (02/03/2026 - 11/06/2026), 56T56 7T5 (12/06/2026 - 11/07/2026)", vagas: 55},
-            {codigo: "DCT1309", nome: "MATEMÁTICA FINANCEIRA", horarios: "34T56 (02/03/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT2101", nome: "SISTEMAS OPERACIONAIS", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT2202", nome: "PROJETO E ADMINISTRAÇÃO DE BANCO DE DADOS", horarios: "35T12 (02/03/2026 - 11/06/2026), 35T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT2302", nome: "ENGENHARIA DE SOFTWARE II", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT2401", nome: "GESTÃO DA INFORMAÇÃO E DOS SISTEMAS DE INFORMAÇÃO", horarios: "6M1234 (02/03/2026 - 11/06/2026), 6M1234 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT3101", nome: "TEORIA GERAL DA ADMINISTRAÇÃO", horarios: "56T34 (02/03/2026 - 21/06/2026), 567T34 (22/06/2026 - 11/07/2026)", vagas: 57},
-            {codigo: "DCT3102", nome: "ORGANIZAÇÃO, SISTEMAS E MÉTODOS", horarios: "2T34 4T56 (02/03/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT4101", nome: "ADMINISTRAÇÃO DE SERVIDORES DE REDE", horarios: "2T3456 (02/03/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT4401", nome: "TÓPICOS AVANÇADOS EM PROGRAMAÇÃO I", horarios: "34M56 (02/03/2026 - 11/07/2026)", vagas: 30},
-            {codigo: "DCT4501", nome: "TÓPICOS ESPECIAIS EM CIÊNCIA E PRODUÇÃO DE CONHECIMENTO", horarios: "5T3456 (02/03/2026 - 11/06/2026), 5T3456 7T6 (12/06/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DCT4502", nome: "MÉTODOS QUANTITATIVOS DE PESQUISA", horarios: "45M12 (02/03/2026 - 11/06/2026), 45M12 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
-            {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
-        ];
+    const turmasPorCurso = {
+    geo: [
+        { codigo: "DGC0194", nome: "QUANTIFICAÇÃO EM GEOGRAFIA", horarios: "3N123 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0198", nome: "GEOMORFOLOGIA II", horarios: "2N123 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0199", nome: "CLIMATOLOGIA SISTEMÁTICA E REGIONAL", horarios: "3N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0218", nome: "GEOGRAFIA DO RIO GRANDE DO NORTE", horarios: "4N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0236", nome: "GEODIVERSIDADE E GEOPATRIMÔNIO", horarios: "3T1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0237", nome: "GEOLOGIA I", horarios: "3M2345 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0240", nome: "CLIMATOLOGIA I", horarios: "4M2345 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0245", nome: "REGIÃO E REGIONALIZAÇÃO DO ESPAÇO", horarios: "6M12345 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0259", nome: "FUNDAMENTOS DE CARTOGRAFIA", horarios: "5T6 5N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0263", nome: "PLANEJAMENTO URBANO E REGIONAL", horarios: "3N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0264", nome: "ESTUDOS REGIONAIS DO SEMIÁRIDO", horarios: "5N1234 (02/03/2026 - 01/07/2026)", vagas: 50 },
+        { codigo: "DGC0265", nome: "SENSORIAMENTO REMOTO E FOTOINTERPRETAÇÃO", horarios: "2N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0270", nome: "MONOGRAFIA I", horarios: "5N234 6N1 (02/03/2026 - 01/07/2026)", vagas: 50 },
+        { codigo: "DGC0271", nome: "PLANEJAMENTO E GESTÃO AMBIENTAL", horarios: "4N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0272", nome: "EXERCÍCIO PROFISSIONAL EM GEOGRAFIA", horarios: "5T6 5N1 (02/03/2026 - 20/05/2026)", vagas: 50 },
+        { codigo: "DGC0273", nome: "SEMINÁRIO DE DESENVOLVIMENTO REGIONAL", horarios: "3N123 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0286", nome: "ESTÁGIO CURRICULAR SUPERVISIONADO DO BACHARELADO", horarios: "4T234 2N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0298", nome: "SEMINÁRIO DE ESTUDOS AMBIENTAIS", horarios: "2T1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0301", nome: "MÉTODOS E TÉCNICAS DE PESQUISA CIENTÍFICA", horarios: "2N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0336", nome: "GEOGRAFIA DO CONHECIMENTO E INOVAÇÃO", horarios: "5T12345 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0403", nome: "GEOMORFOLOGIA MARINHA", horarios: "5T12345 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DGC0426", nome: "HISTÓRIA DO PENSAMENTO GEOGRÁFICO", horarios: "2M1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DHG0214", nome: "GEOGRAFIA URBANA", horarios: "4N1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DHG0235", nome: "SEMINÁRIO DE GEOGRAFIA DA AMÉRICA LATINA", horarios: "3T1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+        { codigo: "DHG0418", nome: "PESQUISA E ENSINO EM GEOGRAFIA", horarios: "2T1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
+    ],
 
-        let selectedTurmas = [];
+    si: [
+        {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1102", nome: "INTRODUÇÃO À INFORMÁTICA", horarios: "23T56 (02/03/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1107", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS I", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1108", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS II", horarios: "24T34 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT1110", nome: "PROGRAMAÇÃO VISUAL", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT1202", nome: "FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT1301", nome: "FUNDAMENTOS DE MATEMÁTICA", horarios: "34T34 (02/03/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1302", nome: "LÓGICA", horarios: "56T12 (02/03/2026 - 11/06/2026), 567T12 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1304", nome: "ÁLGEBRA LINEAR", horarios: "56T56 (02/03/2026 - 11/06/2026), 56T56 7T5 (12/06/2026 - 11/07/2026)", vagas: 55},
+        {codigo: "DCT1309", nome: "MATEMÁTICA FINANCEIRA", horarios: "34T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT2101", nome: "SISTEMAS OPERACIONAIS", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT2202", nome: "PROJETO E ADMINISTRAÇÃO DE BANCO DE DADOS", horarios: "35T12 (02/03/2026 - 11/06/2026), 35T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT2302", nome: "ENGENHARIA DE SOFTWARE II", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT2401", nome: "GESTÃO DA INFORMAÇÃO E DOS SISTEMAS DE INFORMAÇÃO", horarios: "6M1234 (02/03/2026 - 11/06/2026), 6M1234 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT3101", nome: "TEORIA GERAL DA ADMINISTRAÇÃO", horarios: "56T34 (02/03/2026 - 21/06/2026), 567T34 (22/06/2026 - 11/07/2026)", vagas: 57},
+        {codigo: "DCT3102", nome: "ORGANIZAÇÃO, SISTEMAS E MÉTODOS", horarios: "2T34 4T56 (02/03/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT4101", nome: "ADMINISTRAÇÃO DE SERVIDORES DE REDE", horarios: "2T3456 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT4401", nome: "TÓPICOS AVANÇADOS EM PROGRAMAÇÃO I", horarios: "34M56 (02/03/2026 - 11/07/2026)", vagas: 30},
+        {codigo: "DCT4501", nome: "TÓPICOS ESPECIAIS EM CIÊNCIA E PRODUÇÃO DE CONHECIMENTO", horarios: "5T3456 (02/03/2026 - 11/06/2026), 5T3456 7T6 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DCT4502", nome: "MÉTODOS QUANTITATIVOS DE PESQUISA", horarios: "45M12 (02/03/2026 - 11/06/2026), 45M12 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
+        {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
+    ]
+};
+    
+    let cursoAtual = 'geo';
+    let turmas = turmasPorCurso[cursoAtual];
+    let selectedTurmas = [];
 
-        function parseHorarios(horarioStr) {
-            const slots = [];
-            const parts = horarioStr.split(',').map(p => p.trim());
-            
-            parts.forEach(part => {
-                const match = part.match(/([2-7]+)([MTN])(\d+)/g);
-                if (match) {
-                    match.forEach(h => {
-                        const dias = h.match(/[2-7]+/)[0].split('');
-                        const turno = h.match(/[MTN]/)[0];
-                        const horas = h.match(/\d+$/)[0].split('');
-                        
-                        dias.forEach(dia => {
-                            horas.forEach(hora => {
-                                slots.push(`${dia}${turno}${hora}`);
-                            });
+    function parseHorarios(horarioStr) {
+        const slots = [];
+        const parts = horarioStr.split(',').map(p => p.trim());
+        
+        parts.forEach(part => {
+            const match = part.match(/([2-7]+)([MTN])(\d+)/g);
+            if (match) {
+                match.forEach(h => {
+                    const dias = h.match(/[2-7]+/)[0].split('');
+                    const turno = h.match(/[MTN]/)[0];
+                    const horas = h.match(/\d+$/)[0].split('');
+                    
+                    dias.forEach(dia => {
+                        horas.forEach(hora => {
+                            slots.push(`${dia}${turno}${hora}`);
                         });
                     });
-                }
-            });
-            
-            return slots;
-        }
-
-        function hasConflict(turma1, turma2) {
-            const slots1 = parseHorarios(turma1.horarios);
-            const slots2 = parseHorarios(turma2.horarios);
-            return slots1.some(s => slots2.includes(s));
-        }
-
-        function checkConflicts() {
-            const conflicts = [];
-            for (let i = 0; i < selectedTurmas.length; i++) {
-                for (let j = i + 1; j < selectedTurmas.length; j++) {
-                    if (hasConflict(selectedTurmas[i], selectedTurmas[j])) {
-                        conflicts.push([selectedTurmas[i].codigo, selectedTurmas[j].codigo]);
-                    }
-                }
-            }
-            return conflicts;
-        }
-
-        function renderTurmas(filter = '') {
-            const list = document.getElementById('turmasList');
-            const filtered = turmas.filter(t => 
-                t.codigo.toLowerCase().includes(filter.toLowerCase()) ||
-                t.nome.toLowerCase().includes(filter.toLowerCase())
-            );
-
-            list.innerHTML = filtered.map(t => {
-                const isSelected = selectedTurmas.some(s => s.codigo === t.codigo);
-                const hasConflictWithSelected = !isSelected && selectedTurmas.some(s => hasConflict(t, s));
-                
-                return `
-                    <div class="turma-card ${isSelected ? 'selected' : ''} ${hasConflictWithSelected ? 'conflict' : ''}" 
-                         onclick="toggleTurma('${t.codigo}')">
-                        <div class="turma-codigo">${t.codigo}</div>
-                        <div class="turma-nome">${t.nome}</div>
-                        <div class="turma-horarios">📅 ${t.horarios}</div>
-                        <span class="turma-vagas">👥 ${t.vagas} vagas</span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderSelected() {
-            const list = document.getElementById('selectedList');
-            const conflicts = checkConflicts();
-            
-            document.getElementById('conflictWarning').classList.toggle('show', conflicts.length > 0);
-            
-            if (selectedTurmas.length === 0) {
-                list.innerHTML = '<div class="empty-state">Nenhuma turma selecionada</div>';
-            } else {
-                list.innerHTML = selectedTurmas.map(t => `
-                    <div class="selected-item">
-                        <div class="selected-item-info">
-                            <div class="selected-item-codigo">${t.codigo}</div>
-                            <div class="selected-item-nome">${t.nome}</div>
-                        </div>
-                        <button class="remove-btn no-export" onclick="removeTurma('${t.codigo}')">✕</button>
-                    </div>
-                `).join('');
-            }
-            
-            document.getElementById('totalTurmas').textContent = selectedTurmas.length;
-            document.getElementById('totalCreditos').textContent = selectedTurmas.length * 4;
-        }
-
-        function renderGrid() {
-            const tbody = document.getElementById('gridBody');
-            const horarios = [
-                { label: '07h00 às 07h50', slots: ['M1'] },
-                { label: '07h50 às 08h40', slots: ['M2'] },
-                { label: '08h55 às 09h45', slots: ['M3'] },
-                { label: '09h45 às 10h35', slots: ['M4'] },
-                { label: '10h50 às 11h40', slots: ['M5'] },
-                { label: '11h40 às 12h30', slots: ['M6'] },
-
-                { label: '13h00 às 13h50', slots: ['T1'] },
-                { label: '13h50 às 14h40', slots: ['T2'] },
-                { label: '14h55 às 15h45', slots: ['T3'] },
-                { label: '15h45 às 16h35', slots: ['T4'] },
-                { label: '16h50 às 17h40', slots: ['T5'] },
-                { label: '17h40 às 18h30', slots: ['T6'] },
-
-                { label: '18h45 às 19h35', slots: ['N1'] },
-                { label: '19h35 às 20h25', slots: ['N2'] },
-                { label: '20h35 às 21h25', slots: ['N3'] },
-                { label: '21h25 às 22h15', slots: ['N4'] }
-            ];
-
-            const grid = {};
-            selectedTurmas.forEach(t => {
-                const slots = parseHorarios(t.horarios);
-                slots.forEach(slot => {
-                    const dia = slot[0];
-                    const horario = slot.substring(1);
-                    if (!grid[horario]) grid[horario] = {};
-                    grid[horario][dia] = t.codigo.split('-')[0];
                 });
-            });
-
-            tbody.innerHTML = horarios.map(h => {
-                const cells = ['2', '3', '4', '5', '6', '7'].map(dia => {
-                    let content = '';
-                    h.slots.forEach(slot => {
-                        if (grid[slot] && grid[slot][dia]) {
-                            content = grid[slot][dia];
-                        }
-                    });
-                    return `<td class="${content ? 'occupied' : ''}">${content}</td>`;
-                }).join('');
-                
-                return `<tr><td><strong>${h.label}</strong></td>${cells}</tr>`;
-            }).join('');
-        }
-
-        function toggleTurma(codigo) {
-            const index = selectedTurmas.findIndex(t => t.codigo === codigo);
-            if (index > -1) {
-                selectedTurmas.splice(index, 1);
-            } else {
-                const turma = turmas.find(t => t.codigo === codigo);
-                selectedTurmas.push(turma);
             }
-            renderTurmas(document.getElementById('searchBox').value);
-            renderSelected();
-            renderGrid();
-        }
+        });
+        
+        return slots;
+    }
 
-        function removeTurma(codigo) {
-            toggleTurma(codigo);
-        }
+    function hasConflict(turma1, turma2) {
+        const slots1 = parseHorarios(turma1.horarios);
+        const slots2 = parseHorarios(turma2.horarios);
+        return slots1.some(s => slots2.includes(s));
+    }
 
-        document.getElementById('searchBox').addEventListener('input', (e) => {
-            renderTurmas(e.target.value);
+    function checkConflicts() {
+        const conflicts = [];
+        for (let i = 0; i < selectedTurmas.length; i++) {
+            for (let j = i + 1; j < selectedTurmas.length; j++) {
+                if (hasConflict(selectedTurmas[i], selectedTurmas[j])) {
+                    conflicts.push([selectedTurmas[i].codigo, selectedTurmas[j].codigo]);
+                }
+            }
+        }
+        return conflicts;
+    }
+
+    function renderTurmas(filter = '') {
+        const list = document.getElementById('turmasList');
+        const filtered = turmas.filter(t => 
+            t.codigo.toLowerCase().includes(filter.toLowerCase()) ||
+            t.nome.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        list.innerHTML = filtered.map(t => {
+            const isSelected = selectedTurmas.some(s => s.codigo === t.codigo);
+            const hasConflictWithSelected = !isSelected && selectedTurmas.some(s => hasConflict(t, s));
+            
+            return `
+                <div class="turma-card ${isSelected ? 'selected' : ''} ${hasConflictWithSelected ? 'conflict' : ''}" 
+                        onclick="toggleTurma('${t.codigo}')">
+                    <div class="turma-codigo">${t.codigo}</div>
+                    <div class="turma-nome">${t.nome}</div>
+                    <div class="turma-horarios">📅 ${t.horarios}</div>
+                    <span class="turma-vagas">👥 ${t.vagas} vagas</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderSelected() {
+        const list = document.getElementById('selectedList');
+        const conflicts = checkConflicts();
+        
+        document.getElementById('conflictWarning').classList.toggle('show', conflicts.length > 0);
+        
+        if (selectedTurmas.length === 0) {
+            list.innerHTML = '<div class="empty-state">Nenhuma turma selecionada</div>';
+        } else {
+            list.innerHTML = selectedTurmas.map(t => `
+                <div class="selected-item">
+                    <div class="selected-item-info">
+                        <div class="selected-item-codigo">${t.codigo}</div>
+                        <div class="selected-item-nome">${t.nome}</div>
+                    </div>
+                    <button class="remove-btn no-export" onclick="removeTurma('${t.codigo}')">✕</button>
+                </div>
+            `).join('');
+        }
+        
+        document.getElementById('totalTurmas').textContent = selectedTurmas.length;
+        document.getElementById('totalCreditos').textContent = selectedTurmas.length * 4;
+    }
+
+    function renderGrid() {
+        const tbody = document.getElementById('gridBody');
+        const horarios = [
+            { label: '07h00 às 07h50', slots: ['M1'] },
+            { label: '07h50 às 08h40', slots: ['M2'] },
+            { label: '08h55 às 09h45', slots: ['M3'] },
+            { label: '09h45 às 10h35', slots: ['M4'] },
+            { label: '10h50 às 11h40', slots: ['M5'] },
+            { label: '11h40 às 12h30', slots: ['M6'] },
+
+            { label: '13h00 às 13h50', slots: ['T1'] },
+            { label: '13h50 às 14h40', slots: ['T2'] },
+            { label: '14h55 às 15h45', slots: ['T3'] },
+            { label: '15h45 às 16h35', slots: ['T4'] },
+            { label: '16h50 às 17h40', slots: ['T5'] },
+            { label: '17h40 às 18h30', slots: ['T6'] },
+
+            { label: '18h45 às 19h35', slots: ['N1'] },
+            { label: '19h35 às 20h25', slots: ['N2'] },
+            { label: '20h35 às 21h25', slots: ['N3'] },
+            { label: '21h25 às 22h15', slots: ['N4'] }
+        ];
+
+        const grid = {};
+        selectedTurmas.forEach(t => {
+            const slots = parseHorarios(t.horarios);
+            slots.forEach(slot => {
+                const dia = slot[0];
+                const horario = slot.substring(1);
+                if (!grid[horario]) grid[horario] = {};
+                grid[horario][dia] = t.codigo.split('-')[0];
+            });
         });
 
+        tbody.innerHTML = horarios.map(h => {
+            const cells = ['2', '3', '4', '5', '6', '7'].map(dia => {
+                let content = '';
+                h.slots.forEach(slot => {
+                    if (grid[slot] && grid[slot][dia]) {
+                        content = grid[slot][dia];
+                    }
+                });
+                return `<td class="${content ? 'occupied' : ''}">${content}</td>`;
+            }).join('');
+            
+            return `<tr><td><strong>${h.label}</strong></td>${cells}</tr>`;
+        }).join('');
+    }
+
+    function toggleTurma(codigo) {
+        const index = selectedTurmas.findIndex(t => t.codigo === codigo);
+        if (index > -1) {
+            selectedTurmas.splice(index, 1);
+        } else {
+            const turma = turmas.find(t => t.codigo === codigo);
+            selectedTurmas.push(turma);
+        }
+        renderTurmas(document.getElementById('searchBox').value);
+        renderSelected();
+        renderGrid();
+    }
+
+    function removeTurma(codigo) {
+        toggleTurma(codigo);
+    }
+
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+        renderTurmas(e.target.value);
+    });
+
+    document.getElementById('cursoSelect').addEventListener('change', (e) => {
+        cursoAtual = e.target.value;
+
+        // troca o conjunto de turmas
+        turmas = turmasPorCurso[cursoAtual];
+
+        // limpa tudo para evitar conflito de códigos
+        selectedTurmas = [];
+
+        // limpa busca
+        document.getElementById('searchBox').value = '';
+
+        // re-render geral
         renderTurmas();
         renderSelected();
         renderGrid();
-    </script>
+    });
+
+    renderTurmas();
+    renderSelected();
+    renderGrid();
+</script>
+
 </body>
 </html>
