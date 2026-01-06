@@ -11,6 +11,7 @@
             box-sizing: border-box;
         }
 
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -18,10 +19,12 @@
             padding: 20px;
         }
 
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
+
 
         header {
             text-align: center;
@@ -29,22 +32,26 @@
             margin-bottom: 30px;
         }
 
+
         h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
+
         .subtitle {
             font-size: 1.1em;
             opacity: 0.9;
         }
+
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 400px;
             gap: 20px;
         }
+
 
         .turmas-panel {
             background: white;
@@ -54,6 +61,7 @@
             max-height: 85vh;
             overflow-y: auto;
         }
+
 
         .search-box {
             width: 100%;
@@ -65,10 +73,12 @@
             transition: border-color 0.3s;
         }
 
+
         .search-box:focus {
             outline: none;
             border-color: #667eea;
         }
+
 
         .turma-card {
             background: #f8f9fa;
@@ -78,23 +88,28 @@
             cursor: pointer;
             transition: all 0.3s;
             border: 2px solid transparent;
+            position: relative;
         }
+
 
         .turma-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
+
         .turma-card.selected {
             background: #e8f0fe;
             border-color: #667eea;
         }
+
 
         .turma-card.conflict {
             background: #fee;
             border-color: #f44336;
             opacity: 0.6;
         }
+
 
         .turma-codigo {
             font-weight: bold;
@@ -103,6 +118,7 @@
             margin-bottom: 5px;
         }
 
+
         .turma-nome {
             font-size: 1.1em;
             font-weight: 600;
@@ -110,11 +126,13 @@
             color: #333;
         }
 
+
         .turma-horarios {
             font-size: 0.85em;
             color: #666;
             margin-bottom: 5px;
         }
+
 
         .turma-vagas {
             display: inline-block;
@@ -126,11 +144,25 @@
             font-weight: 600;
         }
 
+
+        .color-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+
         .sidebar {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
 
         .selected-panel, .schedule-grid {
             background: white;
@@ -139,11 +171,13 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
+
         .selected-panel h2, .schedule-grid h2 {
             color: #667eea;
             margin-bottom: 15px;
             font-size: 1.3em;
         }
+
 
         .selected-item {
             background: #f0f4ff;
@@ -153,11 +187,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+            padding-left: 35px;
         }
+
+
+        .selected-item-color {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
 
         .selected-item-info {
             flex: 1;
         }
+
 
         .selected-item-codigo {
             font-weight: bold;
@@ -165,10 +216,12 @@
             font-size: 0.85em;
         }
 
+
         .selected-item-nome {
             font-size: 0.9em;
             color: #333;
         }
+
 
         .remove-btn {
             background: #f44336;
@@ -181,9 +234,11 @@
             transition: background 0.3s;
         }
 
+
         .remove-btn:hover {
             background: #d32f2f;
         }
+
 
         .stats {
             display: flex;
@@ -193,9 +248,11 @@
             border-top: 2px solid #e0e0e0;
         }
 
+
         .stat-item {
             text-align: center;
         }
+
 
         .stat-value {
             font-size: 1.8em;
@@ -203,10 +260,12 @@
             color: #667eea;
         }
 
+
         .stat-label {
             font-size: 0.85em;
             color: #666;
         }
+
 
         .grid-table {
             width: 100%;
@@ -215,12 +274,14 @@
             margin-top: 10px;
         }
 
+
         .grid-table th {
             background: #667eea;
             color: white;
             padding: 8px 4px;
             font-weight: 600;
         }
+
 
         .grid-table td {
             border: 1px solid #e0e0e0;
@@ -229,12 +290,13 @@
             height: 30px;
         }
 
+
         .grid-table td.occupied {
-            background: #667eea;
             color: white;
             font-size: 0.7em;
             font-weight: 600;
         }
+
 
         .conflict-warning {
             background: #fff3cd;
@@ -247,9 +309,11 @@
             display: none;
         }
 
+
         .conflict-warning.show {
             display: block;
         }
+
 
         .empty-state {
             text-align: center;
@@ -258,25 +322,30 @@
             font-style: italic;
         }
 
+
         @media (max-width: 1024px) {
             .main-content {
                 grid-template-columns: 1fr;
             }
         }
 
+
         ::-webkit-scrollbar {
             width: 8px;
         }
+
 
         ::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
+
         ::-webkit-scrollbar-thumb {
             background: #667eea;
             border-radius: 10px;
         }
+
 
         .export-btn {
             background: #667eea;
@@ -290,26 +359,30 @@
             transition: background 0.3s;
         }
 
+
         .export-btn:hover {
             background: #5563c1;
         }
+
 
         .hide-for-export {
             display: none !important;
         }
 
+
     </style>
 </head>
 <body>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-    
+
     <div class="container">
         <header>
             <h1>📚 Seleção de Turmas</h1>
             <p class="subtitle">Semestre 2026.1 | Sistema Inteligente de Matrícula</p>
         </header>
+
 
         <div class="main-content">
             <div class="turmas-panel">
@@ -327,6 +400,7 @@
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Buscar disciplina...">
                 <div id="turmasList"></div>
             </div>
+
 
             <div class="sidebar" id="exportArea">
                 <div class="selected-panel">
@@ -346,6 +420,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <div class="schedule-grid">
                     <h2>Grade Horária</h2>
@@ -372,12 +447,15 @@
         </div>
     </div>
 
+
 <script>
 function exportPDF() {
     toggleExportElements(true);
 
+
     const { jsPDF } = window.jspdf;
     const element = document.getElementById('exportArea');
+
 
     html2canvas(element, {
         scale: 2,
@@ -385,35 +463,41 @@ function exportPDF() {
     }).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
 
+
         const pdf = new jsPDF('p', 'mm', 'a4');
+
 
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        // Tamanho real da imagem
+
         const imgWidth = canvas.width;
         const imgHeight = canvas.height;
 
-        // Fator de escala para caber na página
+
         const ratio = Math.min(
             pageWidth / imgWidth,
             pageHeight / imgHeight
         );
 
+
         const renderWidth = imgWidth * ratio;
         const renderHeight = imgHeight * ratio;
 
-        // Centralizar
+
         const x = (pageWidth - renderWidth) / 2;
         const y = (pageHeight - renderHeight) / 2;
 
+
         pdf.addImage(imgData, 'PNG', x, y, renderWidth, renderHeight);
         pdf.save('grade-horaria-2026-1.pdf');
+
 
         toggleExportElements(false);
     });
 }
 </script>
+
 
 <script>
 function toggleExportElements(hide) {
@@ -423,11 +507,14 @@ function toggleExportElements(hide) {
 }
 </script>
 
+
 <script>
 function exportImage() {
     toggleExportElements(true);
 
+
     const element = document.getElementById('exportArea');
+
 
     html2canvas(element, {
         scale: 2,
@@ -438,40 +525,14 @@ function exportImage() {
         link.href = canvas.toDataURL('image/png');
         link.click();
 
+
         toggleExportElements(false);
     });
 }
 </script>
 
+
 <script>
-    /*
-    const turmasSI = [
-        {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
-        {codigo: "DCT1102", nome: "INTRODUÇÃO À INFORMÁTICA", horarios: "23T56 (02/03/2026 - 11/07/2026)", vagas: 55},
-        {codigo: "DCT1107", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS I", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT1108", nome: "PROGRAMAÇÃO ORIENTADA A OBJETOS II", horarios: "24T34 (02/03/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT1110", nome: "PROGRAMAÇÃO VISUAL", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT1202", nome: "FUNDAMENTOS DE SISTEMAS DE INFORMAÇÃO", horarios: "56T12 (02/03/2026 - 11/06/2026), 56T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT1301", nome: "FUNDAMENTOS DE MATEMÁTICA", horarios: "34T34 (02/03/2026 - 11/07/2026)", vagas: 55},
-        {codigo: "DCT1302", nome: "LÓGICA", horarios: "56T12 (02/03/2026 - 11/06/2026), 567T12 (12/06/2026 - 11/07/2026)", vagas: 55},
-        {codigo: "DCT1304", nome: "ÁLGEBRA LINEAR", horarios: "56T56 (02/03/2026 - 11/06/2026), 56T56 7T5 (12/06/2026 - 11/07/2026)", vagas: 55},
-        {codigo: "DCT1309", nome: "MATEMÁTICA FINANCEIRA", horarios: "34T56 (02/03/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT2101", nome: "SISTEMAS OPERACIONAIS", horarios: "24T12 (02/03/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT2202", nome: "PROJETO E ADMINISTRAÇÃO DE BANCO DE DADOS", horarios: "35T12 (02/03/2026 - 11/06/2026), 35T12 7T1 (12/06/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT2302", nome: "ENGENHARIA DE SOFTWARE II", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT2401", nome: "GESTÃO DA INFORMAÇÃO E DOS SISTEMAS DE INFORMAÇÃO", horarios: "6M1234 (02/03/2026 - 11/06/2026), 6M1234 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT3101", nome: "TEORIA GERAL DA ADMINISTRAÇÃO", horarios: "56T34 (02/03/2026 - 21/06/2026), 567T34 (22/06/2026 - 11/07/2026)", vagas: 57},
-        {codigo: "DCT3102", nome: "ORGANIZAÇÃO, SISTEMAS E MÉTODOS", horarios: "2T34 4T56 (02/03/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT4101", nome: "ADMINISTRAÇÃO DE SERVIDORES DE REDE", horarios: "2T3456 (02/03/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT4401", nome: "TÓPICOS AVANÇADOS EM PROGRAMAÇÃO I", horarios: "34M56 (02/03/2026 - 11/07/2026)", vagas: 30},
-        {codigo: "DCT4501", nome: "TÓPICOS ESPECIAIS EM CIÊNCIA E PRODUÇÃO DE CONHECIMENTO", horarios: "5T3456 (02/03/2026 - 11/06/2026), 5T3456 7T6 (12/06/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DCT4502", nome: "MÉTODOS QUANTITATIVOS DE PESQUISA", horarios: "45M12 (02/03/2026 - 11/06/2026), 45M12 7M1 (12/06/2026 - 11/07/2026)", vagas: 50},
-        {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
-    ];
-    */
-
-
     const turmasPorCurso = {
     geo: [
         { codigo: "DGC0194", nome: "QUANTIFICAÇÃO EM GEOGRAFIA", horarios: "3N123 (02/03/2026 - 11/07/2026)", vagas: 50 },
@@ -501,6 +562,7 @@ function exportImage() {
         { codigo: "DHG0418", nome: "PESQUISA E ENSINO EM GEOGRAFIA", horarios: "2T1234 (02/03/2026 - 11/07/2026)", vagas: 50 },
     ],
 
+
     si: [
         {codigo: "DCT0008", nome: "ESTRUTURAS DE DADOS", horarios: "456T34 (02/03/2026 - 11/06/2026), 456T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50},
         {codigo: "DCT1101", nome: "ALGORITMOS E LÓGICA DE PROGRAMAÇÃO", horarios: "456T56 (02/03/2026 - 11/06/2026), 4567T56 (12/06/2026 - 11/07/2026)", vagas: 55},
@@ -526,15 +588,36 @@ function exportImage() {
         {codigo: "DIR0013", nome: "DIREITO E LEGISLAÇÃO SOCIAL", horarios: "35T34 (02/03/2026 - 11/06/2026), 35T34 7T3 (12/06/2026 - 11/07/2026)", vagas: 50}
     ]
 };
-    
+
     let cursoAtual = 'geo';
     let turmas = turmasPorCurso[cursoAtual];
     let selectedTurmas = [];
 
+    // Função para gerar cor única baseada no código da disciplina
+    function getColorForCode(codigo) {
+        const colors = [
+            '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8',
+            '#F7DC6F', '#BB8FCE', '#85C1E2', '#F8B739', '#52B788',
+            '#E63946', '#F77F00', '#06AED5', '#7209B7', '#4CC9F0',
+            '#F72585', '#B5179E', '#7209B7', '#560BAD', '#3A0CA3',
+            '#3F88C5', '#032B43', '#136F63', '#22577A', '#38A3A5',
+            '#57CC99', '#80ED99', '#C7F9CC', '#FF9F1C', '#FFBF69'
+        ];
+
+        let hash = 0;
+        for (let i = 0; i < codigo.length; i++) {
+            hash = codigo.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        hash = Math.abs(hash);
+
+        return colors[hash % colors.length];
+    }
+
+
     function parseHorarios(horarioStr) {
         const slots = [];
         const parts = horarioStr.split(',').map(p => p.trim());
-        
+
         parts.forEach(part => {
             const match = part.match(/([2-7]+)([MTN])(\d+)/g);
             if (match) {
@@ -542,7 +625,7 @@ function exportImage() {
                     const dias = h.match(/[2-7]+/)[0].split('');
                     const turno = h.match(/[MTN]/)[0];
                     const horas = h.match(/\d+$/)[0].split('');
-                    
+
                     dias.forEach(dia => {
                         horas.forEach(hora => {
                             slots.push(`${dia}${turno}${hora}`);
@@ -551,15 +634,17 @@ function exportImage() {
                 });
             }
         });
-        
+
         return slots;
     }
+
 
     function hasConflict(turma1, turma2) {
         const slots1 = parseHorarios(turma1.horarios);
         const slots2 = parseHorarios(turma2.horarios);
         return slots1.some(s => slots2.includes(s));
     }
+
 
     function checkConflicts() {
         const conflicts = [];
@@ -573,6 +658,7 @@ function exportImage() {
         return conflicts;
     }
 
+
     function renderTurmas(filter = '') {
         const list = document.getElementById('turmasList');
         const filtered = turmas.filter(t => 
@@ -580,13 +666,16 @@ function exportImage() {
             t.nome.toLowerCase().includes(filter.toLowerCase())
         );
 
+
         list.innerHTML = filtered.map(t => {
             const isSelected = selectedTurmas.some(s => s.codigo === t.codigo);
             const hasConflictWithSelected = !isSelected && selectedTurmas.some(s => hasConflict(t, s));
-            
+            const cor = getColorForCode(t.codigo);
+
             return `
                 <div class="turma-card ${isSelected ? 'selected' : ''} ${hasConflictWithSelected ? 'conflict' : ''}" 
                         onclick="toggleTurma('${t.codigo}')">
+                    ${isSelected ? `<div class="color-indicator" style="background-color: ${cor};"></div>` : ''}
                     <div class="turma-codigo">${t.codigo}</div>
                     <div class="turma-nome">${t.nome}</div>
                     <div class="turma-horarios">📅 ${t.horarios}</div>
@@ -596,29 +685,35 @@ function exportImage() {
         }).join('');
     }
 
+
     function renderSelected() {
         const list = document.getElementById('selectedList');
         const conflicts = checkConflicts();
-        
+
         document.getElementById('conflictWarning').classList.toggle('show', conflicts.length > 0);
-        
+
         if (selectedTurmas.length === 0) {
             list.innerHTML = '<div class="empty-state">Nenhuma turma selecionada</div>';
         } else {
-            list.innerHTML = selectedTurmas.map(t => `
-                <div class="selected-item">
-                    <div class="selected-item-info">
-                        <div class="selected-item-codigo">${t.codigo}</div>
-                        <div class="selected-item-nome">${t.nome}</div>
+            list.innerHTML = selectedTurmas.map(t => {
+                const cor = getColorForCode(t.codigo);
+                return `
+                    <div class="selected-item">
+                        <div class="selected-item-color" style="background-color: ${cor};"></div>
+                        <div class="selected-item-info">
+                            <div class="selected-item-codigo">${t.codigo}</div>
+                            <div class="selected-item-nome">${t.nome}</div>
+                        </div>
+                        <button class="remove-btn no-export" onclick="removeTurma('${t.codigo}')">✕</button>
                     </div>
-                    <button class="remove-btn no-export" onclick="removeTurma('${t.codigo}')">✕</button>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
-        
+
         document.getElementById('totalTurmas').textContent = selectedTurmas.length;
         document.getElementById('totalCreditos').textContent = selectedTurmas.length * 4;
     }
+
 
     function renderGrid() {
         const tbody = document.getElementById('gridBody');
@@ -630,6 +725,7 @@ function exportImage() {
             { label: '10h50 às 11h40', slots: ['M5'] },
             { label: '11h40 às 12h30', slots: ['M6'] },
 
+
             { label: '13h00 às 13h50', slots: ['T1'] },
             { label: '13h50 às 14h40', slots: ['T2'] },
             { label: '14h55 às 15h45', slots: ['T3'] },
@@ -637,37 +733,55 @@ function exportImage() {
             { label: '16h50 às 17h40', slots: ['T5'] },
             { label: '17h40 às 18h30', slots: ['T6'] },
 
+
             { label: '18h45 às 19h35', slots: ['N1'] },
             { label: '19h35 às 20h25', slots: ['N2'] },
             { label: '20h35 às 21h25', slots: ['N3'] },
             { label: '21h25 às 22h15', slots: ['N4'] }
         ];
 
+
         const grid = {};
+        const gridCodigos = {};
+
         selectedTurmas.forEach(t => {
             const slots = parseHorarios(t.horarios);
             slots.forEach(slot => {
                 const dia = slot[0];
                 const horario = slot.substring(1);
                 if (!grid[horario]) grid[horario] = {};
+                if (!gridCodigos[horario]) gridCodigos[horario] = {};
+
                 grid[horario][dia] = t.codigo.split('-')[0];
+                gridCodigos[horario][dia] = t.codigo;
             });
         });
+
 
         tbody.innerHTML = horarios.map(h => {
             const cells = ['2', '3', '4', '5', '6', '7'].map(dia => {
                 let content = '';
+                let codigoCompleto = '';
+
                 h.slots.forEach(slot => {
                     if (grid[slot] && grid[slot][dia]) {
                         content = grid[slot][dia];
+                        codigoCompleto = gridCodigos[slot][dia];
                     }
                 });
-                return `<td class="${content ? 'occupied' : ''}">${content}</td>`;
+
+                if (content) {
+                    const cor = getColorForCode(codigoCompleto);
+                    return `<td class="occupied" style="background-color: ${cor};">${content}</td>`;
+                } else {
+                    return `<td></td>`;
+                }
             }).join('');
-            
+
             return `<tr><td><strong>${h.label}</strong></td>${cells}</tr>`;
         }).join('');
     }
+
 
     function toggleTurma(codigo) {
         const index = selectedTurmas.findIndex(t => t.codigo === codigo);
@@ -682,36 +796,33 @@ function exportImage() {
         renderGrid();
     }
 
+
     function removeTurma(codigo) {
         toggleTurma(codigo);
     }
+
 
     document.getElementById('searchBox').addEventListener('input', (e) => {
         renderTurmas(e.target.value);
     });
 
+
     document.getElementById('cursoSelect').addEventListener('change', (e) => {
         cursoAtual = e.target.value;
-
-        // troca o conjunto de turmas
         turmas = turmasPorCurso[cursoAtual];
-
-        // limpa tudo para evitar conflito de códigos
         selectedTurmas = [];
-
-        // limpa busca
         document.getElementById('searchBox').value = '';
-
-        // re-render geral
         renderTurmas();
         renderSelected();
         renderGrid();
     });
 
+
     renderTurmas();
     renderSelected();
     renderGrid();
 </script>
+
 
 </body>
 </html>
