@@ -17,7 +17,7 @@ routerAdd("GET", "/api/slide/{action}", (e) => {
             clients[clientId].send(message)
         }
     }
-    
 
+    return e.json(200, { "message": "" });
 
 })
