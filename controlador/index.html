@@ -191,8 +191,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>SEMINÁRIO <span class="highlight">CLIMATOLOGIA</span></h1>
-        <p class="subtitle">Controlador de Apresentação</p>
+        <h1>SEMINÁRIO <span class="highlight">GEOGRAFIA DO RN</span></h1>
+        <p class="subtitle">MAPEAMENTO DAS UNIDADES DE PAISAGEM DO RN</p>
         
         <div class="controls">
             <button class="btn" id="anteriorBtn">
@@ -248,11 +248,11 @@
         }
 
         anteriorBtn.addEventListener('click', () => {
-            makeRequest('https://geografia.tech/api/slide/anterior', 'anterior');
+            makeRequest('https://s8.ufrn.me/api/slide/anterior', 'anterior');
         });
 
         proximoBtn.addEventListener('click', () => {
-            makeRequest('https://geografia.tech/api/slide/proximo', 'próximo');
+            makeRequest('https://s8.ufrn.me/api/slide/proximo', 'próximo');
         });
 
         // Adiciona suporte a teclado

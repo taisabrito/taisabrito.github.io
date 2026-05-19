@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Listar Arquivos da Pasta</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    pre { background: #f0f0f0; padding: 10px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h2>Selecione uma pasta</h2>
+  <input type="file" id="folderInput" webkitdirectory multiple />
+  <h3>Resultado:</h3>
+  <pre id="output"></pre>
+
+  <script>
+  document.getElementById('folderInput').addEventListener('change', function (event) {
+    const files = Array.from(event.target.files);
+
+    // Filtros de extensões aceitas
+    const extensoesAceitas = ['png', 'mp4'];
+
+    // Filtrar apenas arquivos desejados
+    const arquivosFiltrados = files.filter(file => {
+      const ext = file.name.split('.').pop().toLowerCase();
+      return extensoesAceitas.includes(ext);
+    });
+
+    // Função auxiliar para extrair o número do nome do arquivo
+    const extrairNumero = nome => {
+      const match = nome.match(/(\d+)/);
+      return match ? parseInt(match[1], 10) : -1;
+    };
+
+    // Ordenação natural baseada no número do nome do arquivo
+    arquivosFiltrados.sort((a, b) => {
+      const numA = extrairNumero(a.name);
+      const numB = extrairNumero(b.name);
+      return numA - numB;
+    });
+
+    // Montagem do array final
+    const arrayFormatado = arquivosFiltrados.map((file, index) => {
+      const caminhoRelativo = file.webkitRelativePath;
+      const extensao = caminhoRelativo.split('.').pop().toLowerCase();
+      const ehVideo = extensao === 'mp4';
+
+      return {
+        arquivo: caminhoRelativo,
+        ordem: index + 1,
+        video: ehVideo
+      };
+    });
+
+    // Exibir resultado na tela
+    document.getElementById('output').textContent = JSON.stringify(arrayFormatado, null, 2);
+  });
+</script>
+
+</body>
+</html>
